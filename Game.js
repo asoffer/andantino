@@ -17,25 +17,25 @@ function Game(){
 
 Game.prototype.extend({
     init: function(){
-	h = new Hex(0,0);
-	h.color = "blue";
-	this.hexes.pushBack(h);
-	h = new Hex(0,1);
-	h.color = "red";
-	this.hexes.pushBack(h);
-	h = new Hex(1,1);
-	h.color = "gray";
-	this.hexes.pushBack(h);
-	h = new Hex(1,2);
-	h.color = "green";
-	this.hexes.pushBack(h);
-	h = new Hex(4,2);
-	h.color = "green";
-	this.hexes.pushBack(h);
+	h1 = new Hex(0,0);
+	this.hexes.pushBack(h1);
+	h2 = new Hex(0,1);
+	this.hexes.pushBack(h2);
+	h2.ptrU = h1;
+	h1.ptrD = h2;
+	this.colorHex(h1,"blue");
+	this.colorHex(h2,"red");
 
     },
 
     draw: function(){
 	this.iter.apply();
+    },
+
+    colorHex: function(h,c){
+	h.color = c;
+	h.buildNeighbors(this);
+	this.draw();
+
     }
 });
