@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <title>Andantino</title>
+    <script src = "Magic.js"></script>
+    <script src = "List.js"></script>
+    <script src = "Hex.js"></script>
+    <script src = "Game.js"></script>
+
+    <script type="application/javascript">
+    function main(){
+	var g = new Game();
+	g.init();
+	g.draw();
+    }
+
+    </script>
+    <style>
+    body{
+	padding: 0;
+	margin: 0;
+    }
+    </style>
+
+
+  </head>
+  <body onLoad="main()">
+    <canvas id="canvas"></canvas>
+  </body>
+</html>
