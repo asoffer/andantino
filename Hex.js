@@ -30,7 +30,7 @@ Hex.prototype.extend({
     draw: function(ctx,s){
 	ctx.save();
 	ctx.fillStyle = this.color;
-	ctx.translate(100+1.5*this.x*s,100+this.y*1.732*s-0.866*this.x*s);
+	ctx.translate(1.5*this.x*s,(this.y*1.732-0.866*this.x)*s);
 	ctx.beginPath();
 	ctx.moveTo(0,0);
 	ctx.lineTo(s,0);

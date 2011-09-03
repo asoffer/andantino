@@ -10,29 +10,28 @@ function Game(){
 
 
     this.hexes = new List();
-    this.h1 = new Hex(0,0);
-    this.h2 = new Hex(0,1);
-    this.h3 = new Hex(1,1);
 }
 
 Game.prototype.extend({
     init: function(){
-	//this.h1 = Hex(0,0);
-	this.h1.color = "blue";
-	this.hexes.pushBack(this.h1);
+	h1 = new Hex(0,0);
+	h1.color = "blue";
+	this.hexes.pushBack(h1);
 
-	//this.h2 = Hex(0,1);
-	this.h2.color = "red";
-	this.hexes.pushBack(this.h2);
+	h2 = new Hex(0,1);
+	h2.color = "red";
+	this.hexes.pushBack(h2);
 
-
-	this.h3.color = "gray";
-	this.hexes.pushBack(this.h3);
+	h3 = new Hex(1,1);
+	h3.color = "gray";
+	this.hexes.pushBack(h3);
     },
 
     draw: function(){
-	this.h1.draw(this.ctx,20);
-	this.h2.draw(this.ctx,20);
-	this.h3.draw(this.ctx,20);
+	var iter = new ListIterator(this.hexes,function(h){h.draw(document.getElementById("canvas").getContext("2d"),20);});
+	iter.apply();
+//	this.h1.draw(this.ctx,20);
+//	this.h2.draw(this.ctx,20);
+//	this.h3.draw(this.ctx,20);
     }
 });
