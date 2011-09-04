@@ -20,6 +20,8 @@ function Game(){
     //for dragging the canvas
     this.clickX = 0;
     this.clickY = 0;
+    this.translateX = 0;
+    this.translateY = 0;
     this.isMouseDown = false;
 }
 
