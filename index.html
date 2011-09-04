@@ -1,6 +1,7 @@
 <html>
   <head>
     <title>Andantino</title>
+    <script src = "jquery.js"></script>
     <script src = "Magic.js"></script>
     <script src = "List.js"></script>
     <script src = "ListIterator.js"></script>
@@ -8,26 +9,26 @@
     <script src = "Game.js"></script>
 
     <script type="application/javascript">
-    
-    var gSize = 20;
+      var gSize = 20;
 
-    function main(){
-	var g = new Game();
-	g.init();
-	g.draw();
-    }
+      $(document).ready(function(){
+	  g = new Game();
+	  g.init();
+	  g.draw();
+
+      });
 
     </script>
     <style>
-    body{
-	padding: 0;
-	margin: 0;
-    }
+      body{
+      padding: 0;
+      margin: 0;
+      }
     </style>
 
 
   </head>
-  <body onLoad="main()">
+  <body>
     <canvas id="canvas"></canvas>
   </body>
 </html>

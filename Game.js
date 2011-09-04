@@ -14,7 +14,10 @@ function Game(){
     //list of all built hexes
     this.hexes = new List();
     
-    this.iter = new ListIterator(this.hexes,function(h){h.draw(document.getElementById("canvas").getContext("2d"),20);});
+    this.iter = new ListIterator(this.hexes,function(h){h.draw(document.getElementById("canvas").getContext("2d"),gSize);});
+
+
+    //this.highlightHex = mouseX*2/(3*gSize)
 }
 
 Game.prototype.extend({
@@ -28,7 +31,6 @@ Game.prototype.extend({
 	this.colorHex(h1,"blue");
 	this.colorHex(h2,"red");
 
-	this.colorHex(this.hexes.last(),"red");
     },
 
     draw: function(){

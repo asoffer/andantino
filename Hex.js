@@ -49,7 +49,6 @@ Hex.prototype.extend({
 
     draw: function(ctx,s){
 	ctx.save();
-	ctx.fillStyle = this.color;
 	ctx.translate(1.5*this.x*s,(this.y*1.732-0.866*this.x)*s);
 	ctx.beginPath();
 	ctx.moveTo(0,0);
@@ -59,6 +58,8 @@ Hex.prototype.extend({
 	ctx.lineTo(0,s*1.732);
 	ctx.lineTo(-s/2,s*0.866);
 	ctx.closePath();
+	ctx.stroke();
+	ctx.fillStyle = this.color;
 	ctx.fill();
 	ctx.restore();
     }
