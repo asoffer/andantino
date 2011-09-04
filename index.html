@@ -27,17 +27,18 @@ $(document).ready(function(){
 	g.mouseY = Math.round((event.offsetY-document.height/2)/(1.732*gSize)+g.mouseX/2);
 	g.redrawMouseHex();
 
-	//alert("dragging "+g.isMouseDown);
 	if(g.isMouseDown){
-	    g.ctx.translate(event.offsetX-document.width/2-g.clickX,event.offsetY-document.height/2-g.clickY);
+	    g.ctx.translate(event.offsetX-g.clickX,event.offsetY-g.clickY);
+	    g.clickX = event.offsetX;
+	    g.clickY = event.offsetY;
 	    g.draw();
 	}
     });
 
     $("#canvas").mousedown(function(event){
-	g.clickX = event.offsetX-document.width/2;
-	g.clickY = event.offsetY-document.height/2;
-	//g.isMouseDown = true;
+	g.clickX = event.offsetX;
+	g.clickY = event.offsetY;
+	g.isMouseDown = true;
     });
 
     $("#canvas").mouseup(function(event){
@@ -64,7 +65,7 @@ $(document).ready(function(){
     <style>
       body{
       padding: 0;
-      margin: 0;
+	  margin: 0;
       }
     </style>
 
