@@ -10,7 +10,6 @@ function List(){
 
 List.prototype = {
    toString: function(){
-       alert("&&"+this.size);
        if(this.size = 0)
 	   return "[]";
 

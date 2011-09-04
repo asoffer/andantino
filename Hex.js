@@ -1,7 +1,7 @@
 function Hex(x,y){
     this.x = x;
     this.y = y;
-    this.color = "white";
+    this.color = "green";
     this.touching = 0;
 
     this.ptrs= new Array(null, null, null, null, null, null);
@@ -45,9 +45,10 @@ Hex.prototype ={
 		this.ptrs[i].draw(gm.ctx,20);
 
 		gm.grayHexes.pushBack(this.ptrs[i]);
+
 	    }
 	}
-	
+	//console.log(gm.grayHexes.toString());
     },
 
     draw: function(ctx,s){
