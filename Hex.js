@@ -67,7 +67,9 @@ Hex.prototype ={
 	ctx.fillStyle = this.color;
 	ctx.fill();
 	ctx.restore();
-    }
+    },
 
-    
+    equals: function(h){
+	return this.x == h.x && this.y == h.y;
+    }
 };

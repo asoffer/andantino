@@ -70,7 +70,7 @@ Game.prototype = {
 	    return;
 
 	//remove hex from grayhexes
-	//this.grayHexes.remove(hex);
+	this.grayHexes.remove(hex);
 
 	this.colorHex(hex,this.currentPlayer,1);
 	if(this.currentPlayer == "red")

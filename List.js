@@ -95,14 +95,18 @@ List.prototype = {
     //if data is in the list, remove it otherwise, return null
     remove: function(data){
 	var ptr = this.head.next;
-	var prevPtr = this.head;
 
 	while(ptr != this.head){
-	    if(data === ptr.data)
-		//remove the pointer
-		prevPtr.next = ptr.next;
+	    if(data.equals(ptr.data)){
+		ptr.prev.next = ptr.next;
+		ptr.next.prev = ptr.prev;
+
+		--this.size;
 	    
-	    return data;
+		return data;
+	    }
+
+	    ptr = ptr.next;
 	}
 	return;
     },
