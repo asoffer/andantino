@@ -51,12 +51,12 @@ Hex.prototype.extend({
 	ctx.save();
 	ctx.translate(1.5*this.x*s,(this.y*1.732-0.866*this.x)*s);
 	ctx.beginPath();
-	ctx.moveTo(0,0);
+	ctx.moveTo(-0.5*s,-0.866*s);
+	ctx.lineTo(0.5*s,-0.866*s);
 	ctx.lineTo(s,0);
-	ctx.lineTo(s*1.5,s*0.866);
-	ctx.lineTo(s,s*1.732);
-	ctx.lineTo(0,s*1.732);
-	ctx.lineTo(-s/2,s*0.866);
+	ctx.lineTo(0.5*s,0.866*s);
+	ctx.lineTo(-0.5*s,0.866*s);
+	ctx.lineTo(-s,0);
 	ctx.closePath();
 	ctx.stroke();
 	ctx.fillStyle = this.color;
