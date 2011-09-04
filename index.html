@@ -21,11 +21,9 @@ $(document).ready(function(){
 
     //initialize reading mouse position
     $("#canvas").mousemove(function(event){
-	g.mouseX = Math.floor((event.offsetX*2-document.width)/(3*gSize));
-	g.mouseY = Math.floor((event.offsetY*2-document.height)/(3*gSize));
+	g.mouseX = Math.round((event.offsetX*2-document.width)/(3*gSize));
+	g.mouseY = Math.round((event.offsetY-document.height/2)/(1.732*gSize)+g.mouseX/2);
 	g.redrawMouseHex();
-
-	g.mouseY = event.offestY;
     });
 
 

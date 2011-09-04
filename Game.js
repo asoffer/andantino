@@ -20,6 +20,8 @@ function Game(){
     //init for knowing mouse position
     this.mouseX;
     this.mouseY;
+    this.x;
+    this.y;
     //this.mouseHex = new Hex(0,0);
 }
 
@@ -52,7 +54,6 @@ Game.prototype.extend({
 	this.mouseHex.color = "rgba(250,250,100,0.4)";
 	this.draw();
 	this.mouseHex.draw(this.ctx,gSize);
-	this.ctx.fillText("("+this.mouseX+", "+this.mouseY+")", 100, 0)
     }
 
 });
