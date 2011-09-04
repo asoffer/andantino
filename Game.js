@@ -69,14 +69,53 @@ Game.prototype = {
 	if(hex == null)
 	    return;
 
+
 	//remove hex from grayhexes
 	this.grayHexes.remove(hex);
 
 	this.colorHex(hex,this.currentPlayer,1);
+
+	if(this.checkWin(hex))
+	    this.win();
+
 	if(this.currentPlayer == "red")
 	    this.currentPlayer = "blue";
 	else
 	    this.currentPlayer = "red";
-    }
+    },
 
+    checkWin: function(h){
+	var counter;
+	for(var i = 0; i < 3; ++i){
+	    ptr = h;
+	    counter = 1;
+	    while(ptr.ptrs[i] != null && ptr.ptrs[i].color == this.currentPlayer){
+		counter += 1;
+		ptr = ptr.ptrs[i];
+	    }
+	    ptr = h;
+	    while(ptr.ptrs[i+3] != null && ptr.ptrs[i+3].color == this.currentPlayer){
+		counter += 1;
+		ptr = ptr.ptrs[i+3];
+	    }
+
+	    if(counter >= 5)
+		return true
+	}
+	return false;
+    },
+
+    win: function(){
+	for(var i=0; i<=100; ++i)
+	    this.ctx.fillStyle = "rgba(255,255,255,0.09)";
+	this.ctx.fillRect(-document.width/2,-document.height/2,document.width,document.height);
+	this.ctx.font = "bold 30px sans-serif";
+	this.ctx.textAlign = "center";
+	this.ctx.textBaseline = "middle";
+	this.ctx.fillStyle = "rgba(100,100,100,0.5)";
+	this.ctx.fillRect(-100,-20,200,40);
+	this.ctx.fillStyle = "black";
+	this.ctx.fillText(this.currentPlayer+" wins!",0,0);
+	$("#canvas").unbind();
+    }
 };
