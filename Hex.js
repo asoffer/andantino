@@ -43,6 +43,7 @@ Hex.prototype ={
 	    if(this.ptrs[i].touching == 2 && (this.ptrs[i].x!=0 || this.ptrs[i].y!=0) && (this.ptrs[i].x!=0 || this.ptrs[i].y!=1)){
 		this.ptrs[i].color = "lightgray";
 		this.ptrs[i].draw(gm.ctx,20);
+
 		gm.grayHexes.pushBack(this.ptrs[i]);
 	    }
 	}

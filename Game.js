@@ -16,7 +16,6 @@ function Game(){
     //lists of all built hexes
     this.hexes = new List();
     this.grayHexes = new List();
-
 }
 
 Game.prototype = {
@@ -57,6 +56,7 @@ Game.prototype = {
 
     clicked: function(){
 	var hex = null;
+	//alert(this.grayHexes);
 
 	var p = this.grayHexes.head.next;
 
@@ -71,7 +71,6 @@ Game.prototype = {
 
 	//remove hex from grayhexes
 	//this.grayHexes.remove(hex);
-	//alert(this.grayHexes);
 
 	this.colorHex(hex,this.currentPlayer,1);
 	if(this.currentPlayer == "red")

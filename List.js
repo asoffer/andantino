@@ -1,7 +1,7 @@
 //implementation of a doubly linked list (with only one sentinal)
 
 function List(){
-    this.head = {prev: null, next: null};
+    this.head = {prev: null, next: null, data: ""};
     this.head.next = this.head;
     this.head.prev = this.head;
 
@@ -10,6 +10,7 @@ function List(){
 
 List.prototype = {
    toString: function(){
+       alert("&&"+this.size);
        if(this.size = 0)
 	   return "[]";
 
@@ -18,7 +19,7 @@ List.prototype = {
 
        while(ptr.next != this.head){
 	   ptr = ptr.next;
-	   str += ", " + this.ptr.data;
+	   str += ", " + ptr.data;
        }
 
        return str + "]";
