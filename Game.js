@@ -1,4 +1,6 @@
 function Game(){
+    this.currentPlayer = "blue";
+
     this.canvas = document.getElementById("canvas");
 
     //make it full screen
@@ -53,6 +55,7 @@ Game.prototype.extend({
 	var hex = null;
 
 	var p = this.grayHexes.head.next;
+
 	while(p != this.grayHexes.head){
 	    if(this.mouseX == p.data.x && this.mouseY == p.data.y)
 		hex = p.data;
@@ -63,9 +66,14 @@ Game.prototype.extend({
 	    return;
 
 	//remove hex from grayhexes
-	this.grayHexes.remove(hex);
+	//this.grayHexes.remove(hex);
+	//alert(this.grayHexes);
 
-	this.colorHex(hex,"green",1);
+	this.colorHex(hex,this.currentPlayer,1);
+	if(this.currentPlayer == "red")
+	    this.currentPlayer = "blue";
+	else
+	    this.currentPlayer = "red";
     }
 
 });
