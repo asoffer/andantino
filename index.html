@@ -10,23 +10,53 @@
 //hex size
 var gSize = 20;
 
+//canvas center
+
 //game (singleton)
 var g;
+
 $(document).ready(function(){
     g = new Game();
     g.init();
     g.draw();
+
 
     //initialize reading mouse position
     $("#canvas").mousemove(function(event){
 	g.mouseX = Math.round((event.offsetX*2-document.width)/(3*gSize));
 	g.mouseY = Math.round((event.offsetY-document.height/2)/(1.732*gSize)+g.mouseX/2);
 	g.redrawMouseHex();
+
+	//alert("dragging "+g.isMouseDown);
+	if(g.isMouseDown){
+	    g.ctx.translate(event.offsetX-document.width/2-g.clickX,event.offsetY-document.height/2-g.clickY);
+	    g.draw();
+	}
     });
 
-    $("#canvas").click(function(event){
-	g.clicked();
+    $("#canvas").mousedown(function(event){
+	g.clickX = event.offsetX-document.width/2;
+	g.clickY = event.offsetY-document.height/2;
+	//g.isMouseDown = true;
     });
+
+    $("#canvas").mouseup(function(event){
+	g.isMouseDown = false;
+    });
+
+    $("#canvas").click(function(event){ g.clicked() });
+
+    $(document).keypress(function(event){
+	if(event.which == 49)
+	    gSize -= 2;
+	if(event.which == 50)
+	    gSize += 2;
+	if (gSize <= 6)
+	    gSize = 6;
+	g.draw();
+    });
+
+
 });
 
 

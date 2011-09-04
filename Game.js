@@ -16,6 +16,11 @@ function Game(){
     //lists of all built hexes
     this.hexes = new List();
     this.grayHexes = new List();
+
+    //for dragging the canvas
+    this.clickX = 0;
+    this.clickY = 0;
+    this.isMouseDown = false;
 }
 
 Game.prototype = {
@@ -53,6 +58,10 @@ Game.prototype = {
 	this.draw();
 	this.mouseHex.draw(this.ctx,gSize);
     },
+
+    mouseDown: function(event){
+    },
+
 
     clicked: function(){
 	var hex = null;
