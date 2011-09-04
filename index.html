@@ -9,14 +9,28 @@
     <script src = "Game.js"></script>
 
     <script type="application/javascript">
-      var gSize = 20;
+//hex size
+var gSize = 20;
 
-      $(document).ready(function(){
-	  g = new Game();
-	  g.init();
-	  g.draw();
+//game (singleton)
+var g;
+$(document).ready(function(){
+    g = new Game();
+    g.init();
+    g.draw();
 
-      });
+    //initialize reading mouse position
+    $("#canvas").mousemove(function(event){
+	g.mouseX = Math.floor((event.offsetX*2-document.width)/(3*gSize));
+	g.mouseY = Math.floor((event.offsetY*2-document.height)/(3*gSize));
+	g.redrawMouseHex();
+
+	g.mouseY = event.offestY;
+    });
+
+
+});
+
 
     </script>
     <style>

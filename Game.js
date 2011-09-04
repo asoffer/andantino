@@ -17,7 +17,10 @@ function Game(){
     this.iter = new ListIterator(this.hexes,function(h){h.draw(document.getElementById("canvas").getContext("2d"),gSize);});
 
 
-    //this.highlightHex = mouseX*2/(3*gSize)
+    //init for knowing mouse position
+    this.mouseX;
+    this.mouseY;
+    //this.mouseHex = new Hex(0,0);
 }
 
 Game.prototype.extend({
@@ -34,6 +37,7 @@ Game.prototype.extend({
     },
 
     draw: function(){
+	this.ctx.clearRect(-document.width/2,-document.height/2,document.width,document.height);
 	this.iter.apply();
     },
 
@@ -42,5 +46,13 @@ Game.prototype.extend({
 	h.buildNeighbors(this);
 	this.draw();
     },
+
+    redrawMouseHex: function(){
+	this.mouseHex = new Hex(this.mouseX,this.mouseY);
+	this.mouseHex.color = "rgba(250,250,100,0.4)";
+	this.draw();
+	this.mouseHex.draw(this.ctx,gSize);
+	this.ctx.fillText("("+this.mouseX+", "+this.mouseY+")", 100, 0)
+    }
 
 });
