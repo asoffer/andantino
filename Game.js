@@ -107,6 +107,7 @@ Game.prototype = {
     },
 
     checkWin: function(h){
+	//5 in a row win condition
 	var counter;
 	for(var i = 0; i < 3; ++i){
 	    ptr = h;
@@ -124,6 +125,33 @@ Game.prototype = {
 	    if(counter >= 5)
 		return true
 	}
+
+	//surrounding win condition check
+	var ptr, dir, ang, red;
+
+	for(var i = 0; i < 5; ++i){
+	    if(h.ptrs[i].color == "blue"){
+		ptr = h.ptrs[i];
+		red = false;
+		dir = i + 4;
+		ang = i;
+		while(ptr != h){
+		    ang += 2
+		    while(ptr.ptrs[dir].color != "blue"){
+			red |= (ptr.ptrs[dir].color == "red");
+			++dir;
+			--ang;
+			dir %= 6;
+		    }
+		    ptr = ptr.ptrs[dir];
+		    dir = (dir + 4) % 6;
+		}
+
+		if(ang > 0 && red)
+		    return true;
+	    }
+	}
+
 	return false;
     },
 
