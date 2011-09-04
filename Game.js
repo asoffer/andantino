@@ -17,8 +17,6 @@ function Game(){
     this.hexes = new List();
     this.grayHexes = new List();
 
-    this.iter = new ListIterator(this.hexes,function(h){h.draw(document.getElementById("canvas").getContext("2d"),gSize);});
-
 }
 
 Game.prototype = {
@@ -35,7 +33,7 @@ Game.prototype = {
 
     draw: function(){
 	this.ctx.clearRect(-document.width/2,-document.height/2,document.width,document.height);
-	this.iter.apply();
+	this.hexes.iterate(function(h){h.draw(document.getElementById("canvas").getContext("2d"), gSize);});
     },
 
     colorHex: function(h,c,b){
