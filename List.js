@@ -8,7 +8,7 @@ function List(){
     this.size = 0;
 }
 
-List.prototype.extend({
+List.prototype = {
    toString: function(){
        if(this.size = 0)
 	   return "[]";
@@ -124,4 +124,4 @@ List.prototype.extend({
 	}
     }
 
-});
+};

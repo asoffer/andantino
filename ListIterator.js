@@ -6,7 +6,7 @@ function ListIterator(l,fn){
     this.fn = fn;
 }
 
-ListIterator.prototype.extend({
+ListIterator.prototype ={
    toString: function(){
        return "[ListIterator]";
    },
@@ -18,4 +18,4 @@ ListIterator.prototype.extend({
 	    ptr = ptr.next;
 	}
     }
-});
+};

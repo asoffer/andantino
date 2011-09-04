@@ -8,7 +8,7 @@ function Hex(x,y){
 
 }
 
-Hex.prototype.extend({
+Hex.prototype ={
     dirList: new Array(-1, -1, 0, 1, 1, 0),
 
     toString: function(){
@@ -69,4 +69,4 @@ Hex.prototype.extend({
     }
 
     
-});
+};

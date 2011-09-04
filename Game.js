@@ -21,7 +21,7 @@ function Game(){
 
 }
 
-Game.prototype.extend({
+Game.prototype = {
     init: function(){
 	h1 = new Hex(0,0);
 	this.hexes.pushBack(h1);
@@ -46,7 +46,13 @@ Game.prototype.extend({
 
     redrawMouseHex: function(){
 	this.mouseHex = new Hex(this.mouseX,this.mouseY);
-	this.mouseHex.color = "rgba(250,250,100,0.4)";
+
+	//cursor color
+	if(this.currentPlayer == "blue")
+	    this.mouseHex.color = "rgba(100,100,250,0.4)";
+	else
+	    this.mouseHex.color = "rgba(250,100,100,0.4)";
+
 	this.draw();
 	this.mouseHex.draw(this.ctx,gSize);
     },
@@ -76,4 +82,4 @@ Game.prototype.extend({
 	    this.currentPlayer = "red";
     }
 
-});
+};
