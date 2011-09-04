@@ -8,6 +8,8 @@ function Game(){
     //get the context to draw in
     this.ctx = this.canvas.getContext("2d");
 
+    //put the origin at the center of the screen
+    this.ctx.translate(document.width/2,document.height/2);
 
     //list of all built hexes
     this.hexes = new List();
@@ -21,11 +23,12 @@ Game.prototype.extend({
 	this.hexes.pushBack(h1);
 	h2 = new Hex(0,1);
 	this.hexes.pushBack(h2);
-	h2.ptrU = h1;
-	h1.ptrD = h2;
+	h1.ptrs[5] = h2;
+	h2.ptrs[2] = h1;
 	this.colorHex(h1,"blue");
 	this.colorHex(h2,"red");
 
+	this.colorHex(this.hexes.last(),"red");
     },
 
     draw: function(){
@@ -36,6 +39,6 @@ Game.prototype.extend({
 	h.color = c;
 	h.buildNeighbors(this);
 	this.draw();
+    },
 
-    }
 });
