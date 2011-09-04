@@ -15,22 +15,27 @@ function Game(){
 
     //lists of all built hexes
     this.hexes = new List();
+    this.unplayedHexes = new List();
     this.grayHexes = new List();
 
     //for dragging the canvas
-    this.clickX = 0;
-    this.clickY = 0;
-    this.translateX = 0;
-    this.translateY = 0;
+    this.mouse = new Point(0,0);
+    this.click = new Point(0,0);
+    this.trans = new Point(0,0);
+//    this.clickX = 0;
+//    this.clickY = 0;
+//    this.translateX = 0;
+//    this.translateY = 0;
     this.isMouseDown = false;
 }
 
 Game.prototype = {
     init: function(){
-	h1 = new Hex(0,0);
+	h1 = new Hex(new Point(0,0));
 	this.hexes.pushBack(h1);
-	h2 = new Hex(0,1);
+	h2 = new Hex(new Point(0,1));
 	this.hexes.pushBack(h2);
+
 	h1.ptrs[5] = h2;
 	h2.ptrs[2] = h1;
 	this.colorHex(h1,"blue");
@@ -38,18 +43,24 @@ Game.prototype = {
     },
 
     draw: function(){
+	this.ctx.save();
+	this.ctx.translate(-this.trans.x, -this.trans.y);
 	this.ctx.clearRect(-document.width/2,-document.height/2,document.width,document.height);
+	this.ctx.restore();
+
 	this.hexes.iterate(function(h){h.draw(document.getElementById("canvas").getContext("2d"), gSize);});
     },
 
     colorHex: function(h,c,b){
 	h.color = c;
+	this.unplayedHexes.remove(h);
+
 	h.buildNeighbors(this,b);
 	this.draw();
     },
 
     redrawMouseHex: function(){
-	this.mouseHex = new Hex(this.mouseX,this.mouseY);
+	this.mouseHex = new Hex(this.mouse);
 
 	//cursor color
 	if(this.currentPlayer == "blue")
@@ -67,14 +78,14 @@ Game.prototype = {
 
     clicked: function(){
 	var hex = null;
-	//alert(this.grayHexes);
 
-	var p = this.grayHexes.head.next;
+	var ptr = this.grayHexes.head.next;
 
-	while(p != this.grayHexes.head){
-	    if(this.mouseX == p.data.x && this.mouseY == p.data.y)
-		hex = p.data;
-	    p = p.next;
+	while(ptr != this.grayHexes.head){
+
+	    if(this.mouse.equals(ptr.data.p))
+		hex = ptr.data;
+	    ptr = ptr.next;
 	}
 
 	if(hex == null)

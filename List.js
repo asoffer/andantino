@@ -1,7 +1,7 @@
 //implementation of a doubly linked list (with only one sentinal)
 
 function List(){
-    this.head = {prev: null, next: null, data: ""};
+    this.head = {prev: null, next: null};
     this.head.next = this.head;
     this.head.prev = this.head;
 
