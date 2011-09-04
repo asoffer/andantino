@@ -11,18 +11,12 @@ function Game(){
     //put the origin at the center of the screen
     this.ctx.translate(document.width/2,document.height/2);
 
-    //list of all built hexes
+    //lists of all built hexes
     this.hexes = new List();
-    
+    this.grayHexes = new List();
+
     this.iter = new ListIterator(this.hexes,function(h){h.draw(document.getElementById("canvas").getContext("2d"),gSize);});
 
-
-    //init for knowing mouse position
-    this.mouseX;
-    this.mouseY;
-    this.x;
-    this.y;
-    //this.mouseHex = new Hex(0,0);
 }
 
 Game.prototype.extend({
@@ -35,7 +29,6 @@ Game.prototype.extend({
 	h2.ptrs[2] = h1;
 	this.colorHex(h1,"blue");
 	this.colorHex(h2,"red");
-
     },
 
     draw: function(){
@@ -43,9 +36,9 @@ Game.prototype.extend({
 	this.iter.apply();
     },
 
-    colorHex: function(h,c){
+    colorHex: function(h,c,b){
 	h.color = c;
-	h.buildNeighbors(this);
+	h.buildNeighbors(this,b);
 	this.draw();
     },
 
@@ -54,6 +47,25 @@ Game.prototype.extend({
 	this.mouseHex.color = "rgba(250,250,100,0.4)";
 	this.draw();
 	this.mouseHex.draw(this.ctx,gSize);
+    },
+
+    clicked: function(){
+	var hex = null;
+
+	var p = this.grayHexes.head.next;
+	while(p != this.grayHexes.head){
+	    if(this.mouseX == p.data.x && this.mouseY == p.data.y)
+		hex = p.data;
+	    p = p.next;
+	}
+
+	if(hex == null)
+	    return;
+
+	//remove hex from grayhexes
+	this.grayHexes.remove(hex);
+
+	this.colorHex(hex,"green",1);
     }
 
 });

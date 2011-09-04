@@ -1,7 +1,7 @@
 function Hex(x,y){
     this.x = x;
     this.y = y;
-    this.color = "lightgray";
+    this.color = "white";
     this.touching = 0;
 
     this.ptrs= new Array(null, null, null, null, null, null);
@@ -39,15 +39,19 @@ Hex.prototype.extend({
 
 	    //show the ones you can click on
 	    this.ptrs[i].touching++;
-	    if(this.ptrs[i].touching == 2){
-		this.ptrs[i].color = "gray";
+
+	    if(this.ptrs[i].touching == 2 && (this.ptrs[i].x!=0 || this.ptrs[i].y!=0) && (this.ptrs[i].x!=0 || this.ptrs[i].y!=1)){
+		this.ptrs[i].color = "lightgray";
 		this.ptrs[i].draw(gm.ctx,20);
+		gm.grayHexes.pushBack(this.ptrs[i]);
 	    }
 	}
 	
     },
 
     draw: function(ctx,s){
+	if(this.color == "white")
+	    return;
 	ctx.save();
 	ctx.translate(1.5*this.x*s,(this.y*1.732-0.866*this.x)*s);
 	ctx.beginPath();
