@@ -124,6 +124,38 @@ Game.prototype = {
 	    if(counter >= 5)
 		return true
 	}
+<<<<<<< HEAD
+=======
+
+	//surrounding win condition check
+	var ptr, dir, initDir, red;
+
+	for(var i = 0; i < 5; ++i){
+	    if(h.ptrs[i] != null && h.ptrs[i].color == this.currentPlayer){
+		//alert(h.ptrs);
+		ptr = h.ptrs[i];
+		red = false;
+		initDir = i - 2;
+		dir = i - 2;
+		//alert("@ "+ptr + " : "+dir);
+		while(ptr != h){
+		    //alert("# "+ptr + " : "+dir);
+		    //alert((((dir % 6) + 6) % 6) + " : " + ptr);
+		    while(ptr.ptrs[(((dir % 6) + 6) % 6)] != null && ptr.ptrs[(((dir % 6) + 6) % 6)].color != this.currentPlayer){
+			red |= (ptr.ptrs[(((dir % 6) + 6) % 6)].color == "red");
+			++dir;
+		    }
+		    ptr = ptr.ptrs[(((dir % 6) + 6) % 6)];
+		    dir -= 2;
+		}
+
+		//alert((dir - initDir - 3) + " -- " + red);
+		if(dir - initDir - 3 < 0 && red)
+		    return true;
+	    }
+	}
+
+>>>>>>> 8305f6f... pretty much works. unless red is fucking stupid.
 	return false;
     },
 
