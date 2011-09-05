@@ -124,8 +124,6 @@ Game.prototype = {
 	    if(counter >= 5)
 		return true
 	}
-<<<<<<< HEAD
-=======
 
 	//surrounding win condition check
 	var ptr, dir, initDir, red;
@@ -155,7 +153,6 @@ Game.prototype = {
 	    }
 	}
 
->>>>>>> 8305f6f... pretty much works. unless red is fucking stupid.
 	return false;
     },
 
