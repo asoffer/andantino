@@ -127,27 +127,29 @@ Game.prototype = {
 	}
 
 	//surrounding win condition check
-	var ptr, dir, ang, red;
+	var ptr, dir, initDir, red;
 
 	for(var i = 0; i < 5; ++i){
-	    if(h.ptrs[i].color == "blue"){
+	    if(h.ptrs[i] != null && h.ptrs[i].color == this.currentPlayer){
+		//alert(h.ptrs);
 		ptr = h.ptrs[i];
 		red = false;
-		dir = i + 4;
-		ang = i;
+		initDir = i - 2;
+		dir = i - 2;
+		//alert("@ "+ptr + " : "+dir);
 		while(ptr != h){
-		    ang += 2
-		    while(ptr.ptrs[dir].color != "blue"){
-			red |= (ptr.ptrs[dir].color == "red");
+		    //alert("# "+ptr + " : "+dir);
+		    //alert((((dir % 6) + 6) % 6) + " : " + ptr);
+		    while(ptr.ptrs[(((dir % 6) + 6) % 6)] != null && ptr.ptrs[(((dir % 6) + 6) % 6)].color != this.currentPlayer){
+			red |= (ptr.ptrs[(((dir % 6) + 6) % 6)].color == "red");
 			++dir;
-			--ang;
-			dir %= 6;
 		    }
-		    ptr = ptr.ptrs[dir];
-		    dir = (dir + 4) % 6;
+		    ptr = ptr.ptrs[(((dir % 6) + 6) % 6)];
+		    dir -= 2;
 		}
 
-		if(ang > 0 && red)
+		//alert((dir - initDir - 3) + " -- " + red);
+		if(dir - initDir - 3 < 0 && red)
 		    return true;
 	    }
 	}
