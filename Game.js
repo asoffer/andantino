@@ -107,7 +107,6 @@ Game.prototype = {
 	h.color = "lightgray";
 	
 	//so you can undo a win
-	setBindings(true);
     },
 
     nextTurn: function(){
@@ -194,62 +193,5 @@ Game.prototype = {
 	this.ctx.fillStyle = "black";
 	this.ctx.fillText(this.currentPlayer+" wins!",0,0);
 
-	//setBindings(false);
     }
 };
-
-function setBindings(b){
-    $("#canvas").unbind('mousedown');
-    $("#canvas").unbind('click');
-    $("#canvas").unbind('mouseup');
-    $("#canvas").unbind('keypress');
-
-    if(!b)
-	return;
-
-    //alert("OKAY");
-    $("#canvas").mousedown(function(event){
-	g.click = new Point(event.offsetX, event.offsetY);
-	g.isMouseDown = true;
-    });
-
-    $("#canvas").mouseup(function(event){
-	g.isMouseDown = false;
-    });
-
-    $("#canvas").click(function(event){ g.play(); });
-
-    $(document).keypress(function(event){
-	if(event.which == 49)
-	    gSize -= 2;
-	else if(event.which == 50){
-	    gSize += 2;
-	    if (gSize <= 6)
-		gSize = 6;
-	}
-	else if(event.which == 32)
-	    g.undo();
-	else if(event.which == 13)
-	    ai.test();
-
-	g.draw();
-    });
-
-    $("#canvas").mousemove(function(event){
-	var p = new Point(event.offsetX, event.offsetY)
-	g.mouse = new Point(Math.round((p.x*2-document.width-2*g.trans.x)/(3*gSize)),0);
-
-	g.mouse.add(new Point(0,Math.round((p.y-document.height/2-g.trans.y)/(1.732*gSize)+g.mouse.x/2)));
-
-	g.redrawMouseHex();
-
-	if(g.isMouseDown){
-	    g.ctx.translate(event.offsetX-g.click.x, event.offsetY-g.click.y);
-	    g.trans.add(p).sub(g.click);
-	    g.click = p;
-	    g.draw();
-	}
-    });
-
-
-}

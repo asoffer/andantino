@@ -7,16 +7,15 @@ var isMouseDown = false;
 //game (singleton)
 var g;
 
-//global ai
+//global players
 var p1 = new HumanPlayer("blue");
-var p2 = new HumanPlayer("red");
+var p2 = new AI("red");
 
 $(document).ready(function(){
     g = new Game(p1,p2);
     g.init();
     g.draw();
 
-    //ai = new AI(g);
 
     $("#canvas").mousemove(function(event){
 	var pl = g.currentPlayer;
@@ -59,13 +58,10 @@ $(document).ready(function(){
 	else if(event.which == 32)
 	    g.undo();
 	else if(event.which == 13)
-	    ai.test();
+	    p2.test();
 
 	g.draw();
     });
-
-
-//    setBindings(true);
 
 
 });
