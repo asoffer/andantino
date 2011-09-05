@@ -20,6 +20,7 @@ $(document).ready(function(){
 
     g_game.start();
 
+
 });
 
 function g_mouseDown(event){
@@ -32,13 +33,13 @@ function g_mouseUp(event){
 }
 
 function g_keyPress(event){
-    if(event.which == 49)
+    if(event.which == 49){
 	g_size -= 2;
-    else if(event.which == 50){
-	g_size += 2;
 	if (g_size <= 6)
 	    g_size = 6;
     }
+    else if(event.which == 50)
+	g_size += 2;
     else if(event.which == 32)
 	g_game.undo();
     //for ai only

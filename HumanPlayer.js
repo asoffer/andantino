@@ -25,8 +25,6 @@ HumanPlayer.prototype = {
 	    return;
 
 	this.game.play(hex);
-
-	alert(this.game.winner);
     },
 
     drawMouse: function(){

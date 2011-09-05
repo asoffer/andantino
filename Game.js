@@ -18,7 +18,9 @@ function Game(p1,p2){
 
     //for dragging the canvas
     this.mouse = new Point(0,0);
-    this.isMouseDown = false;
+
+    //menu
+    this.menu = new Menu();
 }
 
 Game.prototype = {
@@ -30,6 +32,10 @@ Game.prototype = {
 	h2.ptrs[2] = h1;
 	this.colorHex(h1,"blue");
 	this.colorHex(h2,"red");
+
+	this.menu.add("1 player",null);
+	this.menu.add("2 player",null);
+	this.menu.draw();
 
     },
 
@@ -128,7 +134,6 @@ Game.prototype = {
 
 	//check for a win
 	if(this.checkWin(hex)){
-	    alert("wooo");
 	    this.winner = this.currentPlayer;
 	}
 
@@ -142,16 +147,17 @@ Game.prototype = {
 	for(var i = 0; i < 3; ++i){
 	    ptr = h;
 	    counter = 1;
-	    while(ptr.ptrs[i] != null && ptr.ptrs[i].color == this.currentPlayer){
+	    while(ptr.ptrs[i] != null && ptr.ptrs[i].color == this.currentPlayer.color){
 		counter += 1;
 		ptr = ptr.ptrs[i];
 	    }
 	    ptr = h;
-	    while(ptr.ptrs[i+3] != null && ptr.ptrs[i+3].color == this.currentPlayer){
+	    while(ptr.ptrs[i+3] != null && ptr.ptrs[i+3].color == this.currentPlayer.color){
 		counter += 1;
 		ptr = ptr.ptrs[i+3];
 	    }
 
+	    console.log(counter);
 	    if(counter >= 5)
 		return true
 	}
