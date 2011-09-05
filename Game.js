@@ -7,6 +7,7 @@ function Game(p1,p2){
     this.p2.game = this;
 
     this.currentPlayer = p1;
+    this.otherPlayer = p2;
 
 
     //lists of all built hexes
@@ -68,11 +69,11 @@ Game.prototype = {
 	this.draw();
     },
 
-    redrawMouseHex: function(){
+/*    redrawMouseHex: function(){
 	this.mouseHex = new Hex(this.mouse);
 
 	//cursor color
-	if(this.currentPlayer == "blue")
+	if(this.currentPlayer == this.p1)
 	    this.mouseHex.color = "rgba(100,100,250,0.4)";
 	else
 	    this.mouseHex.color = "rgba(250,100,100,0.4)";
@@ -80,7 +81,7 @@ Game.prototype = {
 	this.draw();
 	this.mouseHex.draw(this.ctx,gSize);
     },
-
+*/
     undo: function(event){
 	//can't go back further than the start of the game
 	if(this.playedHexes.size <= 2)
@@ -110,36 +111,28 @@ Game.prototype = {
     },
 
     nextTurn: function(){
-	if(this.currentPlayer == "blue")
-	    this.currentPlayer = "red";
-	else
-	    this.currentPlayer = "blue";
+	if(this.currentPlayer == this.p1){
+	    this.currentPlayer = this.p2;
+	    this.otherPlayer = this.p1;
+	}
+	else{
+	    this.currentPlayer = this.p1;
+	    this.otherPlayer = this.p2;
+	}
     },
 
-    play: function(){
-	var hex = null;
-
-	var ptr = this.grayHexes.head.next;
-
-	while(ptr != this.grayHexes.head){
-
-	    if(this.mouse.equals(ptr.data.p))
-		hex = ptr.data;
-	    ptr = ptr.next;
-	}
-
-	if(hex == null)
-	    return;
-
-
+    play: function(hex){
 	//remove hex from grayhexes
 	this.grayHexes.remove(hex);
 
-	this.colorHex(hex,this.currentPlayer,1);
+	//update the board
+	this.colorHex(hex,this.currentPlayer.color);
 
+	//check for a win
 	if(this.checkWin(hex))
 	    this.win();
 
+	//set next turn
 	this.nextTurn();
     },
 
@@ -164,29 +157,24 @@ Game.prototype = {
 	}
 
 	//surrounding win condition check
-	var ptr, dir, initDir, red;
+	var ptr, dir, initDir, found;
 
 	for(var i = 0; i < 5; ++i){
-	    if(h.ptrs[i] != null && h.ptrs[i].color == this.currentPlayer){
-		//alert(h.ptrs);
+	    if(h.ptrs[i] != null && h.ptrs[i].color == this.currentPlayer.color){
 		ptr = h.ptrs[i];
-		red = false;
+		found = false;
 		initDir = i - 2;
 		dir = i - 2;
-		//alert("@ "+ptr + " : "+dir);
 		while(ptr != h){
-		    //alert("# "+ptr + " : "+dir);
-		    //alert((((dir % 6) + 6) % 6) + " : " + ptr);
-		    while(ptr.ptrs[(((dir % 6) + 6) % 6)] != null && ptr.ptrs[(((dir % 6) + 6) % 6)].color != this.currentPlayer){
-			red |= (ptr.ptrs[(((dir % 6) + 6) % 6)].color == "red");
+		    while(ptr.ptrs[(((dir % 6) + 6) % 6)] != null && ptr.ptrs[(((dir % 6) + 6) % 6)].color != this.currentPlayer.color){
+			found |= (ptr.ptrs[(((dir % 6) + 6) % 6)].color == this.otherPlayer.color);
 			++dir;
 		    }
 		    ptr = ptr.ptrs[(((dir % 6) + 6) % 6)];
 		    dir -= 2;
 		}
 
-		//alert((dir - initDir - 3) + " -- " + red);
-		if(dir - initDir - 3 < 0 && red)
+		if(dir - initDir - 3 < 0 && found)
 		    return true;
 	    }
 	}

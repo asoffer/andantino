@@ -1,7 +1,7 @@
 function HumanPlayer(c){
     this.game = null;
     this.color = c;
-    this.current = null;
+    this.point = new Point(0,0);
 }
 
 //HumanPlayer.prototype = new Player();
@@ -11,20 +11,34 @@ HumanPlayer.prototype = {
     },
 
     move: function(){
-	this.game.play();
+	var hex = null;
+
+	var ptr = this.game.grayHexes.head.next;
+
+	while(ptr != this.game.grayHexes.head){
+	    if(this.point.equals(ptr.data.p))
+		hex = ptr.data;
+	    ptr = ptr.next;
+	}
+
+	if(hex == null)
+	    return;
+
+	this.game.play(hex);
     },
 
     drawMouse: function(){
-	this.mouseHex = new Hex(this.mouse);
+	mouseHex = new Hex(this.point);
 
 	//cursor color
 	if(this.color == "blue")
-	    this.mouseHex.color = "rgba(100,100,250,0.4)";
+	    mouseHex.color = "rgba(100,100,250,0.4)";
 	else
-	    this.mouseHex.color = "rgba(250,100,100,0.4)";
+	    mouseHex.color = "rgba(250,100,100,0.4)";
 
 	this.game.draw();
-	this.game.mouseHex.draw(this.game.ctx, gSize);
+	mouseHex.draw(this.game.ctx, gSize);
 
     }
+
 };
