@@ -46,7 +46,6 @@ Hex.prototype = {
 		else{
 		    h = new Hex(newPt);
 		    gm.unplayedHexes.pushBack(h);
-		    gm.hexes.pushBack(h);
 		}
 
 		//set up the pointers properly
