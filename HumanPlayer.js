@@ -25,6 +25,8 @@ HumanPlayer.prototype = {
 	    return;
 
 	this.game.play(hex);
+
+	alert(this.game.winner);
     },
 
     drawMouse: function(){
@@ -37,7 +39,7 @@ HumanPlayer.prototype = {
 	    mouseHex.color = "rgba(250,100,100,0.4)";
 
 	this.game.draw();
-	mouseHex.draw(this.game.ctx, gSize);
+	mouseHex.draw(this.game.ctx, g_size);
 
     }
 

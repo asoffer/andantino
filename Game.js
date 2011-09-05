@@ -5,6 +5,7 @@ function Game(p1,p2){
     this.p2 = p2;
     this.p1.game = this;
     this.p2.game = this;
+    this.winner = null;
 
     this.currentPlayer = p1;
     this.otherPlayer = p2;
@@ -17,8 +18,6 @@ function Game(p1,p2){
 
     //for dragging the canvas
     this.mouse = new Point(0,0);
-    this.click = new Point(0,0);
-    this.trans = new Point(0,0);
     this.isMouseDown = false;
 }
 
@@ -48,16 +47,29 @@ Game.prototype = {
 	this.ctx.translate(document.width/2,document.height/2);
     },
 
+    start: function(){
+	$("#canvas").mousedown(g_mouseDown);
+	$("#canvas").mouseup(g_mouseUp);
+	$("#canvas").click(function(event){g_game.currentPlayer.move();});
+	$("#canvas").mousemove(g_mouseMove);
+	$(document).keypress(g_keyPress);
+    },
+
+    stop: function(){
+	$("#canvas").unbind();
+    },
+
     draw: function(){
 	//clear the screen
 	this.ctx.save();
-	this.ctx.translate(-this.trans.x, -this.trans.y);
-	this.ctx.clearRect(-document.width/2,-document.height/2,document.width,document.height);
+	this.ctx.translate(-g_trans.x, -g_trans.y);
+	this.ctx.clearRect(-document.width/2, -document.height/2,
+			   document.width, document.height);
 	this.ctx.restore();
 
 	//iterate over all visible hexes, and draw them.
-	this.playedHexes.iterate(function(h){h.draw(document.getElementById("canvas").getContext("2d"), gSize);});
-	this.grayHexes.iterate(function(h){h.draw(document.getElementById("canvas").getContext("2d"), gSize);});
+	this.playedHexes.iterate(function(h){h.draw(document.getElementById("canvas").getContext("2d"), g_size);});
+	this.grayHexes.iterate(function(h){h.draw(document.getElementById("canvas").getContext("2d"), g_size);});
     },
 
     colorHex: function(h,c){
@@ -69,19 +81,6 @@ Game.prototype = {
 	this.draw();
     },
 
-/*    redrawMouseHex: function(){
-	this.mouseHex = new Hex(this.mouse);
-
-	//cursor color
-	if(this.currentPlayer == this.p1)
-	    this.mouseHex.color = "rgba(100,100,250,0.4)";
-	else
-	    this.mouseHex.color = "rgba(250,100,100,0.4)";
-
-	this.draw();
-	this.mouseHex.draw(this.ctx,gSize);
-    },
-*/
     undo: function(event){
 	//can't go back further than the start of the game
 	if(this.playedHexes.size <= 2)
@@ -128,8 +127,10 @@ Game.prototype = {
 	this.colorHex(hex,this.currentPlayer.color);
 
 	//check for a win
-	if(this.checkWin(hex))
-	    this.win();
+	if(this.checkWin(hex)){
+	    alert("wooo");
+	    this.winner = this.currentPlayer;
+	}
 
 	//set next turn
 	this.nextTurn();
