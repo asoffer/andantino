@@ -6,8 +6,8 @@ var g_game;
 
 //global players
 var g_p1 = new HumanPlayer("blue");
-var g_p2 = new HumanPlayer("red");
-//var g_p2 = new AI("red");
+//var g_p2 = new HumanPlayer("red");
+var g_p2 = new AI("red");
 
 //clicking, dragging, and such
 var g_click = new Point(0,0);

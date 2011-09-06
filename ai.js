@@ -3,7 +3,7 @@ function AI(c){
     this.color = c;
     this.point = new Point(0,0);
 
-    this.gameCopy = null;
+    this.gameCopy = {};
 
     this.recursionDepth = 3;
 }
@@ -14,8 +14,23 @@ AI.prototype = {
     },
 
     move: function(){
-	$.extend(true, this.gameCopy, g);
+	$.extend(true, this.gameCopy, this.game);
+	this.gameValue(1);
 
+	var hex = null;
+
+	var ptr = this.game.grayHexes.head.next;
+
+	while(ptr != this.game.grayHexes.head){
+	    if(this.point.equals(ptr.data.p))
+		hex = ptr.data;
+	    ptr = ptr.next;
+	}
+
+	if(hex == null)
+	    return;
+
+	this.game.play(hex);
 
     },
 
@@ -32,9 +47,27 @@ AI.prototype = {
 	while(ptr != this.gameCopy.grayHexes.head){
 	    this.point = ptr.data.p;
 	    this.makeMove(this.gameCopy);
-	    
-
+	    vals.pushBack(this.gameValue(d-1));
+	    ptr = ptr.next;
+	    alert(vals);
 	}
+    },
+
+    makeMove: function(g){
+	var hex = null;
+
+	var ptr = g.grayHexes.head.next;
+
+	while(ptr != g.grayHexes.head){
+	    if(this.point.equals(ptr.data.p))
+		hex = ptr.data;
+	    ptr = ptr.next;
+	}
+
+	if(hex == null)
+	    return;
+
+	g.play(hex);
     },
 
     drawMouse: function(){
@@ -47,7 +80,7 @@ AI.prototype = {
 	    mouseHex.color = "rgba(250,100,100,0.4)";
 
 	this.game.draw();
-	mouseHex.draw(this.game.ctx, gSize);
+	mouseHex.draw(this.game.ctx, g_size);
 
     },
 
