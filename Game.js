@@ -116,12 +116,14 @@ Game.prototype = {
 
 	}
 
+	//send the turn back one. mod two, just go forward
 	this.nextTurn();
 
 	this.grayHexes.pushBack(h);
 	h.color = "lightgray";
 	
 	//so you can undo a win
+	this.winner == null;
     },
 
     nextTurn: function(){

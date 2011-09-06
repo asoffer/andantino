@@ -43,9 +43,10 @@ function g_keyPress(event){
 	g_size += 2;
     else if(event.which == 32)
 	g_game.undo();
+
     //for ai only
-    //else if(event.which == 13)
-    //g_p2.test();
+    else if(event.which == 13)
+	g_p2.gameValue(2);
 
     g_game.draw();
 }

@@ -14,8 +14,7 @@ AI.prototype = {
     },
 
     move: function(){
-	$.extend(true, this.gameCopy, this.game);
-	this.gameValue(1);
+	//this.gameValue(1,this.game);
 
 	var hex = null;
 
@@ -35,39 +34,31 @@ AI.prototype = {
     },
 
     gameValue: function(d){
-	if(this.gameCopy.winner != null)
+	alert("");
+	if(this.game.winner != null)
 	    return -1000;
 
 	if(d == 0)
 	    return 0;
 
-	var vals = new List();
-	var ptr = this.gameCopy.grayHexes.head.next;
-	//look at all possible moves
-	while(ptr != this.gameCopy.grayHexes.head){
-	    this.point = ptr.data.p;
-	    this.makeMove(this.gameCopy);
-	    vals.pushBack(this.gameValue(d-1));
-	    ptr = ptr.next;
-	    alert(vals);
-	}
-    },
+	var n = this.game.grayHexes.size;
+	var list = new List();
 
-    makeMove: function(g){
-	var hex = null;
-
-	var ptr = g.grayHexes.head.next;
-
-	while(ptr != g.grayHexes.head){
-	    if(this.point.equals(ptr.data.p))
-		hex = ptr.data;
-	    ptr = ptr.next;
+	for(var i =0; i< n; ++i){
+	    this.point = this.game.grayHexes.first().p;
+	    this.move();
+	    list.pushBack(this.gameValue(d-1));
+	    this.game.undo();
 	}
 
-	if(hex == null)
-	    return;
-
-	g.play(hex);
+	var m = 1000;
+	var ptr = list.head.next;
+	while(ptr != list.head){
+	    m = Math.min(m, ptr.data)
+	    ptr = ptr.next;
+	}
+	
+	return -m
     },
 
     drawMouse: function(){
@@ -84,31 +75,4 @@ AI.prototype = {
 
     },
 
-/*    test: function(){
-	var list = new List();
-	var ptr = this.game.grayHexes.head.next;
-
-	while(ptr != this.game.grayHexes.head){
-	    list.pushBack(ptr.data);
-	    ptr = ptr.next;
-	}
-
-	ptr = list.head.next;
-
-
-	while(ptr != list.head){
-	    this.point = ptr.data.p;
-	    var h = this.move();
-
-	    if(this.game.checkWin(h))
-		alert("???");
-
-	    alert("");
-
-	    this.game.undo();
-
-	    ptr = ptr.next;
-	}
-    }
-*/
 };
