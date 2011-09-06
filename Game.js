@@ -76,6 +76,16 @@ Game.prototype = {
 	//iterate over all visible hexes, and draw them.
 	this.playedHexes.iterate(function(h){h.draw(document.getElementById("canvas").getContext("2d"), g_size);});
 	this.grayHexes.iterate(function(h){h.draw(document.getElementById("canvas").getContext("2d"), g_size);});
+
+	//point out the last play
+	this.ctx.save();
+	var p = this.playedHexes.last().p;
+	this.ctx.translate(1.5*p.x*g_size,(p.y*1.732-0.866*p.x)*g_size);
+	this.ctx.beginPath();
+	this.ctx.arc(0,0,g_size/3,0,Math.PI*2, true);
+	this.ctx.closePath();
+	this.ctx.fill();
+	this.ctx.restore();
     },
 
     colorHex: function(h,c){
@@ -157,7 +167,6 @@ Game.prototype = {
 		ptr = ptr.ptrs[i+3];
 	    }
 
-	    console.log(counter);
 	    if(counter >= 5)
 		return true
 	}

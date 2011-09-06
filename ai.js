@@ -14,42 +14,13 @@ AI.prototype = {
     },
 
     move: function(){
-	this.gameCopy = deepCopy(g);
-
-
-
+	$.extend(true, this.gameCopy, g);
 
 
     },
-	/*
-	var list = new List();
-	var ptr = this.game.grayHexes.head.next;
 
-	while(ptr != this.game.grayHexes.head){
-	    list.pushBack(ptr.data);
-	    ptr = ptr.next;
-	}
-
-	ptr = list.head.next;
-
-
-	while(ptr != list.head){
-	    this.point = ptr.data.p;
-	    var h = this.move();
-
-	    if(this.game.checkWin(h))
-		alert("???");
-
-	    alert("");
-
-	    this.game.undo();
-
-	    ptr = ptr.next;
-	}
-
-*/
     gameValue: function(d){
-	if(this.gameCopy.done())
+	if(this.gameCopy.winner != null)
 	    return -1000;
 
 	if(d == 0)
