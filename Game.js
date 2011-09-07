@@ -18,9 +18,6 @@ function Game(p1,p2){
 
     //for dragging the canvas
     this.mouse = new Point(0,0);
-
-    //menu
-    this.menu = new Menu();
 }
 
 Game.prototype = {
@@ -32,10 +29,6 @@ Game.prototype = {
 	h2.ptrs[2] = h1;
 	this.colorHex(h1,"blue");
 	this.colorHex(h2,"red");
-
-	this.menu.add("1 player",null);
-	this.menu.add("2 player",null);
-	this.menu.draw();
 
     },
 
@@ -148,6 +141,7 @@ Game.prototype = {
 	//check for a win
 	if(this.checkWin(hex)){
 	    this.winner = this.currentPlayer;
+	    this.win();
 	}
 
 	//set next turn
@@ -171,7 +165,7 @@ Game.prototype = {
 	    }
 
 	    if(counter >= 5)
-		return true
+		return true;
 	}
 
 	//surrounding win condition check
@@ -201,16 +195,13 @@ Game.prototype = {
     },
 
     win: function(){
-	for(var i=0; i<=100; ++i)
-	    this.ctx.fillStyle = "rgba(255,255,255,0.09)";
-	this.ctx.fillRect(-document.width/2,-document.height/2,document.width,document.height);
-	this.ctx.font = "bold 30px sans-serif";
-	this.ctx.textAlign = "center";
-	this.ctx.textBaseline = "middle";
-	this.ctx.fillStyle = "rgba(100,100,100,0.5)";
-	this.ctx.fillRect(-100,-20,200,40);
-	this.ctx.fillStyle = "black";
-	this.ctx.fillText(this.currentPlayer+" wins!",0,0);
-
+	this.stop();
+	$("#win").dialog({
+	    title: this.currentPlayer.color.charAt(0).toUpperCase() + this.currentPlayer.color.slice(1) + " wins!",
+	    resizable: false,
+	    width: 350,
+	    height: 80,
+	    close: function(){$("#menu").dialog("open"); }
+	}).text("Hit escape to go to the main menu.");
     }
 };
