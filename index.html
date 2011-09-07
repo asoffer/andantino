@@ -1,80 +1,49 @@
 <html>
   <head>
     <title>Andantino</title>
-    <script src = "Point.js"></script>
     <script src = "jquery.js"></script>
+    <script type="text/javascript" src="jqueryui/js/jquery-ui-1.8.16.custom.min.js"></script>
+    <link type="text/css" href="jqueryui/css/redmond/jquery-ui-1.8.16.custom.css" rel="Stylesheet" />
+    <script src = "Point.js"></script>
     <script src = "List.js"></script>
     <script src = "Hex.js"></script>
     <script src = "Game.js"></script>
-
-    <script type="application/javascript">
-//hex size
-var gSize = 20;
-
-//canvas center
-
-//game (singleton)
-var g;
-
-$(document).ready(function(){
-    g = new Game();
-    g.init();
-    g.draw();
-
-    //initialize reading mouse position
-
-    $("#canvas").mousemove(function(event){
-	var p = new Point(event.offsetX, event.offsetY)
-	g.mouse = new Point(Math.round((p.x*2-document.width-2*g.trans.x)/(3*gSize)),0);
-
-	g.mouse.add(new Point(0,Math.round((p.y-document.height/2-g.trans.y)/(1.732*gSize)+g.mouse.x/2)));
-
-	g.redrawMouseHex();
-
-	if(g.isMouseDown){
-	    g.ctx.translate(event.offsetX-g.click.x, event.offsetY-g.click.y);
-	    g.trans.add(p).sub(g.click);
-	    g.click = p;
-	    g.draw();
-	}
-    });
-
-    $("#canvas").mousedown(function(event){
-	g.click = new Point(event.offsetX, event.offsetY);
-	g.isMouseDown = true;
-    });
-
-    $("#canvas").mouseup(function(event){
-	g.isMouseDown = false;
-    });
-
-    $("#canvas").click(function(event){ g.clicked(); });
-
-    $(document).keypress(function(event){
-	if(event.which == 49)
-	    gSize -= 2;
-	if(event.which == 50)
-	    gSize += 2;
-	if (gSize <= 6)
-	    gSize = 6;
-	g.draw();
-    });
+    <script src = "AI.js"></script>
+    <script src = "HumanPlayer.js"></script>
+    <script src = "Menu.js"></script>
+    <script src = "main.js"></script>
 
 
-});
-
-
-    </script>
     <style>
       body{
       padding: 0;
-	  margin: 0;
+      margin: 0;
       }
+
     </style>
 
 
   </head>
-  <body>
+  <body bgcolor="#aaa">
     <canvas id="canvas"></canvas>
+    <div id="menu">
+      <button id = "hh">Human vs. Human</button>
+      <button id = "hc">Human vs. Computer</button>
+      <button id = "rules">How to Play</button>
+    </div>
+
+    <div id = "howto">
+      <p>The rules to Andantino are simple. Blue and red take turns placing hexes. Blue plays first. Each hex (besides the first two which are already placed) must be placed adjacent to two previously played hexes. The playable options are shown in light gray.</p>
+
+      <p>You win if you surround at least one of your opponents hexes with your own, or if you play 5 of your own hexes in a row.</p>
+
+      <p>You can hit 1 or 2 to zoom out or in respectively. Hitting "U" will undo.
+
+      <p>Enjoy!</p>
+
+      <center><button class = "backToMenu">Back</button></center>
+    </div>
+
+    <div id = "win"></div>
   </body>
 </html>
