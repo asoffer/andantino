@@ -1,8 +1,10 @@
 <html>
   <head>
     <title>Andantino</title>
-    <script src = "Point.js"></script>
     <script src = "jquery.js"></script>
+    <script type="text/javascript" src="jqueryui/js/jquery-ui-1.8.16.custom.min.js"></script>
+    <link type="text/css" href="jqueryui/css/redmond/jquery-ui-1.8.16.custom.css" rel="Stylesheet" />
+    <script src = "Point.js"></script>
     <script src = "List.js"></script>
     <script src = "Hex.js"></script>
     <script src = "Game.js"></script>
@@ -15,13 +17,31 @@
     <style>
       body{
       padding: 0;
-	  margin: 0;
+      margin: 0;
       }
+
     </style>
 
 
   </head>
   <body bgcolor="#aaa">
     <canvas id="canvas"></canvas>
+    <div id="menu">
+      <button id = "hh">Human vs. Human</button>
+      <button id = "hc">Human vs. Computer</button>
+      <button id = "rules">How to Play</button>
+    </div>
+
+    <div id = "howto">
+      <p>The rules to Andantino are simple. Blue and red take turns placing hexes. Blue plays first. Each hex (besides the first two which are already placed) must be placed adjacent to two previously played hexes. The playable options are shown in light gray.</p>
+
+      <p>You win if you surround at least one of your opponents hexes with your own, or if you play 5 of your own hexes in a row.</p>
+
+      <p>You can hit 1 or 2 to zoom out or in respectively. Hitting "U" will undo.
+
+      <p>Enjoy!</p>
+
+      <button class = "backToMenu">Back</button>
+    </div>
   </body>
 </html>

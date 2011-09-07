@@ -135,6 +135,7 @@ Game.prototype = {
 	    this.currentPlayer = this.p1;
 	    this.otherPlayer = this.p2;
 	}
+
     },
 
     play: function(hex){

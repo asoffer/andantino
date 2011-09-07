@@ -14,7 +14,6 @@ AI.prototype = {
     },
 
     move: function(){
-	//this.gameValue(1,this.game);
 
 	var hex = null;
 
@@ -34,31 +33,37 @@ AI.prototype = {
     },
 
     gameValue: function(d){
-	alert("");
 	if(this.game.winner != null)
-	    return -1000;
+	    return {p: this.game.grayHexes.first().p, v: -1000};
+
+	//the above line is totally wrong
+
 
 	if(d == 0)
-	    return 0;
+	    return {p: this.game.grayHexes.first().p, v: 0};
 
 	var n = this.game.grayHexes.size;
 	var list = new List();
 
 	for(var i =0; i< n; ++i){
 	    this.point = this.game.grayHexes.first().p;
-	    this.move();
+	    this.move(true);
 	    list.pushBack(this.gameValue(d-1));
 	    this.game.undo();
 	}
 
-	var m = 1000;
+	var m = 2000;
+	var best;
 	var ptr = list.head.next;
 	while(ptr != list.head){
-	    m = Math.min(m, ptr.data)
+	    if(m >= ptr.data.v){
+		m = ptr.data.v;
+		best = ptr.data.p;
+	    }
 	    ptr = ptr.next;
 	}
-	
-	return -m
+
+	return {p: best, v: -m};
     },
 
     drawMouse: function(){
