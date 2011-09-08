@@ -3,9 +3,8 @@ function AI(c){
     this.color = c;
     this.point = new Point(0,0);
 
-    this.gameCopy = {};
+    this.thinking = false;
 
-    this.recursionDepth = 3;
 }
 
 AI.prototype = {
@@ -32,38 +31,48 @@ AI.prototype = {
 
     },
 
-    gameValue: function(d){
-	if(this.game.winner != null)
-	    return {p: this.game.grayHexes.first().p, v: -1000};
-
-	//the above line is totally wrong
-
-
-	if(d == 0)
-	    return {p: this.game.grayHexes.first().p, v: 0};
-
+    think: function(){
+	this.game.winner = null;
+	var end = false;
+	this.thinking = true;
 	var n = this.game.grayHexes.size;
-	var list = new List();
+	var ptr = this.game.grayHexes.head.next;
 
-	for(var i =0; i< n; ++i){
+	for(var i = 0; i < n; ++i){
 	    this.point = this.game.grayHexes.first().p;
-	    this.move(true);
-	    list.pushBack(this.gameValue(d-1));
+	    this.move();
+	    if(this.game.winner != null){
+		end = true;
+		this.game.undo();
+		break;
+	    }
 	    this.game.undo();
 	}
-
-	var m = 2000;
-	var best;
-	var ptr = list.head.next;
-	while(ptr != list.head){
-	    if(m >= ptr.data.v){
-		m = ptr.data.v;
-		best = ptr.data.p;
-	    }
-	    ptr = ptr.next;
+	if(end){
+	    this.thinking = false;
+	    return;
 	}
 
-	return {p: best, v: -m};
+	this.game.nextTurn();
+	for(i = 0; i < n; ++i){
+	    this.point = this.game.grayHexes.first().p;
+	    this.move();
+	    if(this.game.winner != null){
+		end = true;
+		this.game.undo();
+		break;
+	    }
+	    this.game.undo();
+	}
+	//alert(this.game.currentPlayer.color);
+	this.game.nextTurn();
+
+	if(end){
+	    this.thinking = false;
+	    return;
+	}
+	
+	this.thinking = false;
     },
 
     drawMouse: function(){

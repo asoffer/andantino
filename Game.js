@@ -119,16 +119,17 @@ Game.prototype = {
 	this.winner == null;
     },
 
+    setTurn: function(p){
+	if(this.otherPlayer == p){
+	    this.otherPlayer = this.currentPlayer;
+	    this.currentPlayer = p;
+	}
+    },
+	
     nextTurn: function(){
-	if(this.currentPlayer == this.p1){
-	    this.currentPlayer = this.p2;
-	    this.otherPlayer = this.p1;
-	}
-	else{
-	    this.currentPlayer = this.p1;
-	    this.otherPlayer = this.p2;
-	}
-
+	this.setTurn(this.otherPlayer);
+	//if(this.currentPlayer instanceof AI)
+	//this.currentPlayer.think();
     },
 
     play: function(hex){
@@ -136,12 +137,13 @@ Game.prototype = {
 	this.grayHexes.remove(hex);
 
 	//update the board
-	this.colorHex(hex,this.currentPlayer.color);
+	    this.colorHex(hex,this.currentPlayer.color);
 
 	//check for a win
 	if(this.checkWin(hex)){
 	    this.winner = this.currentPlayer;
-	    this.win();
+	    if(!this.currentPlayer.thinking && !this.otherPlayer.thinking)
+		this.win();
 	}
 
 	//set next turn
