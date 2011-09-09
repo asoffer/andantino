@@ -52,10 +52,19 @@ Game.prototype = {
 	$("#canvas").click(function(event){g_game.currentPlayer.move();});
 	$("#canvas").mousemove(g_mouseMove);
 	$(document).keypress(g_keyPress);
+
+	$("#zin").click(g_zin);
+	$("#zout").click(g_zout);
+	$("#undo").click(function(event){ g_game.undo(); });
+
     },
 
     stop: function(){
 	$("#canvas").unbind();
+	$(document).unbind();
+	$("#zin").unbind();
+	$("#zout").unbind();
+	$("#undo").unbind();
     },
 
     draw: function(){
@@ -130,7 +139,10 @@ Game.prototype = {
 	this.setTurn(this.otherPlayer);
 
 	if(this.currentPlayer instanceof AI && !this.currentPlayer.thinking){
-	    setTimeout("g_p2.thinkAndMove()",100);
+	    if(this.currentPlayer.color == g_p1.color)
+		setTimeout("g_p1.thinkAndMove()",100);
+	    else
+		setTimeout("g_p2.thinkAndMove()",100);
 	}
 
     },
@@ -221,31 +233,28 @@ Game.prototype = {
 	    }
 	}
 
-<<<<<<< HEAD
 	//surrounding win condition check
-	var ptr, dir, initDir, red;
+	var ptr, dir, initDir, sur;
+	var surColor = "red";
+	if(this.currentPlayer.color == "red")
+	    surColor = "blue";
 
 	for(var i = 0; i < 5; ++i){
 	    if(h.ptrs[i] != null && h.ptrs[i].color == this.currentPlayer){
-		//alert(h.ptrs);
 		ptr = h.ptrs[i];
-		red = false;
+		sur = false;
 		initDir = i - 2;
 		dir = i - 2;
-		//alert("@ "+ptr + " : "+dir);
 		while(ptr != h){
-		    //alert("# "+ptr + " : "+dir);
-		    //alert((((dir % 6) + 6) % 6) + " : " + ptr);
 		    while(ptr.ptrs[(((dir % 6) + 6) % 6)] != null && ptr.ptrs[(((dir % 6) + 6) % 6)].color != this.currentPlayer){
-			red |= (ptr.ptrs[(((dir % 6) + 6) % 6)].color == "red");
+			sur |= (ptr.ptrs[(((dir % 6) + 6) % 6)].color == surColor);
 			++dir;
 		    }
 		    ptr = ptr.ptrs[(((dir % 6) + 6) % 6)];
 		    dir -= 2;
 		}
 
-		//alert((dir - initDir - 3) + " -- " + red);
-		if(dir - initDir - 3 < 0 && red)
+		if(dir - initDir - 3 < 0 && sur)
 		    return true;
 	    }
 	}
