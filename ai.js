@@ -3,9 +3,8 @@ function AI(c){
     this.color = c;
     this.point = new Point(0,0);
 
-    this.gameCopy = {};
+    this.thinking = false;
 
-    this.recursionDepth = 3;
 }
 
 AI.prototype = {
@@ -14,7 +13,6 @@ AI.prototype = {
     },
 
     move: function(){
-
 	var hex = null;
 
 	var ptr = this.game.grayHexes.head.next;
@@ -32,38 +30,86 @@ AI.prototype = {
 
     },
 
-    gameValue: function(d){
-	if(this.game.winner != null)
-	    return {p: this.game.grayHexes.first().p, v: -1000};
-
-	//the above line is totally wrong
-
-
-	if(d == 0)
-	    return {p: this.game.grayHexes.first().p, v: 0};
-
+    think: function(){
+	this.game.winner = null;
+	this.thinking = true;
 	var n = this.game.grayHexes.size;
 	var list = new List();
 
-	for(var i =0; i< n; ++i){
+	//win if you can, at the same time, build a list of moves and how good they are
+	for(var i = 0; i < n; ++i){
 	    this.point = this.game.grayHexes.first().p;
-	    this.move(true);
-	    list.pushBack(this.gameValue(d-1));
+	    this.move();
+	    list.pushBack({len: this.game.getLongestFromLastPlay(), p: this.point});
+	    if(this.game.winner != null){
+		this.game.undo();
+		this.thinking = false;
+		return
+	    }
 	    this.game.undo();
 	}
 
-	var m = 2000;
-	var best;
-	var ptr = list.head.next;
+	//play a forced move if you must
+	this.game.nextTurn();
+	for(i = 0; i < n; ++i){
+	    this.point = this.game.grayHexes.first().p;
+	    this.move();
+	    if(this.game.winner != null){
+		this.game.undo();
+		this.game.nextTurn();
+		this.thinking = false;
+		return;
+	    }
+	    this.game.undo();
+	}
+	this.game.nextTurn();
+
+	
+	//take the first move you can find where playing it doesn't give next player a win
+	var oldPt, end, ptr2;
+	var ptr = this.game.grayHexes.head.prev;
+	while(ptr != this.game.grayHexes.head){
+	    this.point = ptr.data.p;
+	    this.move();
+	    ptr2 = this.game.grayHexes.head.prev;
+	    oldPt = this.point;
+	    while(ptr2 != this.game.grayHexes.head){
+		this.game.winner = null;
+		this.point = ptr2.data.p;
+		this.move();
+		if(this.game.winner != null){
+		    list.remove(ptr.data);
+		    this.game.undo();
+		    break;
+		}
+		this.game.undo();
+		ptr2 = ptr2.prev;
+	    }
+
+	    this.point = oldPt;
+
+	    ptr = ptr.prev;
+	    this.game.undo();
+	}
+	
+	//make it play offensively based on some heuristic
+	//this belongs elsewhere
+	var m = 0;
+	ptr = list.head.next;
 	while(ptr != list.head){
-	    if(m >= ptr.data.v){
-		m = ptr.data.v;
-		best = ptr.data.p;
+	    if(ptr.data.len > m){
+		m = ptr.data.len;
+		this.point = ptr.data.p;
 	    }
 	    ptr = ptr.next;
 	}
 
-	return {p: best, v: -m};
+	this.thinking = false;
+    },
+
+    thinkAndMove: function(){
+	this.think();
+	this.move();
     },
 
     drawMouse: function(){

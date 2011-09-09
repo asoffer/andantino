@@ -119,14 +119,18 @@ Game.prototype = {
 	this.winner == null;
     },
 
-    nextTurn: function(){
-	if(this.currentPlayer == this.p1){
-	    this.currentPlayer = this.p2;
-	    this.otherPlayer = this.p1;
+    setTurn: function(p){
+	if(this.otherPlayer == p){
+	    this.otherPlayer = this.currentPlayer;
+	    this.currentPlayer = p;
 	}
-	else{
-	    this.currentPlayer = this.p1;
-	    this.otherPlayer = this.p2;
+    },
+	
+    nextTurn: function(){
+	this.setTurn(this.otherPlayer);
+
+	if(this.currentPlayer instanceof AI && !this.currentPlayer.thinking){
+	    setTimeout("g_p2.thinkAndMove()",100);
 	}
 
     },
@@ -136,21 +140,47 @@ Game.prototype = {
 	this.grayHexes.remove(hex);
 
 	//update the board
-	this.colorHex(hex,this.currentPlayer.color);
+	    this.colorHex(hex,this.currentPlayer.color);
 
 	//check for a win
 	if(this.checkWin(hex)){
 	    this.winner = this.currentPlayer;
-	    this.win();
+	    if(!this.currentPlayer.thinking && !this.otherPlayer.thinking)
+		this.win();
+	    else
+		this.nextTurn();
 	}
+	else
+	    //set next turn
+	    this.nextTurn();
+    },
 
-	//set next turn
-	this.nextTurn();
+    getLongestFromLastPlay: function(){
+	var m = 0;
+	var counter = 0;
+	var ptr;
+	for(var i = 0; i < 3; ++i){
+	    ptr = this.playedHexes.last();
+	    counter = 1;
+	    while(ptr.ptrs[i] != null && ptr.ptrs[i].color == this.otherPlayer.color){
+		counter += 1;
+		ptr = ptr.ptrs[i];
+	    }
+	    ptr = this.playedHexes.last();;
+	    while(ptr.ptrs[i+3] != null && ptr.ptrs[i+3].color == this.otherPlayer.color){
+		counter += 1;
+		ptr = ptr.ptrs[i+3];
+	    }
+
+	    m = Math.max(m,counter);
+	}
+	return m;
     },
 
     checkWin: function(h){
 	//5 in a row win condition
 	var counter;
+	var ptr;
 	for(var i = 0; i < 3; ++i){
 	    ptr = h;
 	    counter = 1;

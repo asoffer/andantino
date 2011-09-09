@@ -36,8 +36,17 @@ $(document).ready(function(){
 	g_game.start();
     });
 
-    $("#hc").button({disabled: true});
-    //var g_p2 = new AI("red");
+    //$("#hc").button({disabled: true});
+    $("#hc").click(function(event){
+	$("#menu").dialog("close");
+
+	g_p2 = new AI("red");
+	
+	g_game = new Game(g_p1,g_p2);
+	g_game.init();
+	g_game.draw();
+	g_game.start();
+    });
 
     $("#rules").click(function(event){
 	$("#howto").dialog({
@@ -79,11 +88,10 @@ function g_keyPress(event){
     else if(event.which == 117)
 	g_game.undo();
 
-/*    //for ai only
+    //for ai only
     else if(event.which == 13){
-	g_p2.point = g_p2.gameValue(5).p;
-	g_p2.move();
-    }*/
+
+    }
 
     g_game.draw();
 }
