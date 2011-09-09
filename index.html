@@ -22,13 +22,23 @@
       #credit{
       position: absolute;
       bottom: 0;
-      left: 0;
+      right: 0;
       font-family: "helvetcia" sans-serif;
       font-size: 12pt;
       padding: 10px;
       z-index: 1;
       }
-      
+
+      #credit a, #credit a:visited, #credit a:active{
+      font-weight: bold;
+      color: #000;
+      text-decoration: none;
+      }
+
+      #credit a:hover{
+      color: #444;
+      }
+
       #buttons{
       position: absolute;
       top: 0;
@@ -79,6 +89,6 @@
 	<button class = "backToMenu">Back</button>
     </div>
     <div id = "win"></div>
-    <div id = "credit">Coded by Andy Soffer</div>
+    <div id = "credit">Coded by <a href = "http://soffer801.wordpress.com">Andy Soffer</a></div>
   </body>
 </html>
