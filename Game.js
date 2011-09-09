@@ -55,7 +55,7 @@ Game.prototype = {
 
 	$("#zin").click(g_zin);
 	$("#zout").click(g_zout);
-	$("#undo").click(function(event){ g_game.undo(); });
+	$("#undo").click(function(event){ g_game.undo(); g_game.draw() });
 
     },
 
