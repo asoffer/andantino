@@ -90,8 +90,7 @@ function g_keyPress(event){
 
     //for ai only
     else if(event.which == 13){
-	g_p2.think();
-	g_p2.move();
+
     }
 
     g_game.draw();

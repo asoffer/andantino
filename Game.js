@@ -128,8 +128,11 @@ Game.prototype = {
 	
     nextTurn: function(){
 	this.setTurn(this.otherPlayer);
-	//if(this.currentPlayer instanceof AI)
-	//this.currentPlayer.think();
+
+	if(this.currentPlayer instanceof AI && !this.currentPlayer.thinking){
+	    setTimeout("g_p2.thinkAndMove()",100);
+	}
+
     },
 
     play: function(hex){
@@ -144,15 +147,40 @@ Game.prototype = {
 	    this.winner = this.currentPlayer;
 	    if(!this.currentPlayer.thinking && !this.otherPlayer.thinking)
 		this.win();
+	    else
+		this.nextTurn();
 	}
+	else
+	    //set next turn
+	    this.nextTurn();
+    },
 
-	//set next turn
-	this.nextTurn();
+    getLongestFromLastPlay: function(){
+	var m = 0;
+	var counter = 0;
+	var ptr;
+	for(var i = 0; i < 3; ++i){
+	    ptr = this.playedHexes.last();
+	    counter = 1;
+	    while(ptr.ptrs[i] != null && ptr.ptrs[i].color == this.otherPlayer.color){
+		counter += 1;
+		ptr = ptr.ptrs[i];
+	    }
+	    ptr = this.playedHexes.last();;
+	    while(ptr.ptrs[i+3] != null && ptr.ptrs[i+3].color == this.otherPlayer.color){
+		counter += 1;
+		ptr = ptr.ptrs[i+3];
+	    }
+
+	    m = Math.max(m,counter);
+	}
+	return m;
     },
 
     checkWin: function(h){
 	//5 in a row win condition
 	var counter;
+	var ptr;
 	for(var i = 0; i < 3; ++i){
 	    ptr = h;
 	    counter = 1;

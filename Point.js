@@ -22,5 +22,9 @@ Point.prototype = {
 
     equals: function(p){
 	return this.x == p.x && this.y == p.y;
+    },
+
+    adjacentTo: function(p){
+	return (Math.abs(this.x - p.x) + Math.abs(this.y - p.y) == 1) || (this.x - p.x) * (this.y - p.y) == 1;
     }
 };
