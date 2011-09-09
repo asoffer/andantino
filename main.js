@@ -13,9 +13,9 @@ var g_trans = new Point(0,0);
 var g_isMouseDown = false;
 
 $(document).ready(function(){
-    g_p1 = new HumanPlayer("blue");
-
+    $("#cc").button({disabled: true})
     $("#howto").hide();
+    $("#first").hide();
     $("button").button().css("width", 250);
     $("#menu").dialog({
 	title: "Andantino",
@@ -28,6 +28,7 @@ $(document).ready(function(){
     $("#hh").click(function(event){
 	$("#menu").dialog("close");
 
+	g_p1 = new HumanPlayer("blue");
 	g_p2 = new HumanPlayer("red");
 
 	g_game = new Game(g_p1,g_p2);
@@ -36,16 +37,55 @@ $(document).ready(function(){
 	g_game.start();
     });
 
-    //$("#hc").button({disabled: true});
-    $("#hc").click(function(event){
+    $("#cc").click(function(event){
 	$("#menu").dialog("close");
 
+	g_p1 = new AI("blue");
 	g_p2 = new AI("red");
-	
+
 	g_game = new Game(g_p1,g_p2);
 	g_game.init();
 	g_game.draw();
 	g_game.start();
+    });
+
+
+    $("#hc").click(function(event){
+	$("#menu").dialog("close");
+
+	g_p1 = new HumanPlayer("blue");
+	g_p2 = new HumanPlayer("red");
+
+	$("#first").dialog({
+	    title: "Who plays first?",
+	    width: 290,
+	    closeOnEscape: true,
+	    open: function(event, ui) { $(".ui-dialog-titlebar-close").hide(); },
+	    draggable: false,
+	    resizable: false
+	}).css("text-align", "center");
+	$("#first").show();
+    });
+
+    $("#hFirst").click(function(event){
+	$("#first").dialog("close");
+	g_p1 = new HumanPlayer("blue");
+	g_p2 = new AI("red");
+	g_game = new Game(g_p1,g_p2);
+	g_game.init();
+	g_game.draw();
+	g_game.start();
+    });
+
+    $("#cFirst").click(function(event){
+	$("#first").dialog("close");
+	g_p1 = new AI("blue");
+	g_p2 = new HumanPlayer("red");
+	g_game = new Game(g_p1,g_p2);
+	g_game.init();
+	g_game.draw();
+	g_game.start();
+	setTimeout("g_p1.thinkAndMove()",100);
     });
 
     $("#rules").click(function(event){
@@ -68,6 +108,22 @@ $(document).ready(function(){
 
 });
 
+function g_zout(){
+    g_size -=2;
+    if(g_size <= 6)
+	g_size = 6;
+    g_game.draw();
+
+}
+
+function g_zin(){
+    g_size +=2;
+    if(g_size >= 40)
+	g_size = 40;
+    g_game.draw();
+
+}
+
 function g_mouseDown(event){
     g_click = new Point(event.offsetX, event.offsetY);
     g_isMouseDown = true;
@@ -78,22 +134,13 @@ function g_mouseUp(event){
 }
 
 function g_keyPress(event){
-    if(event.which == 49){
-	g_size -= 2;
-	if (g_size <= 6)
-	    g_size = 6;
-    }
+    if(event.which == 49)
+	g_zin();
     else if(event.which == 50)
-	g_size += 2;
+	g_zout();
     else if(event.which == 117)
 	g_game.undo();
 
-    //for ai only
-    else if(event.which == 13){
-
-    }
-
-    g_game.draw();
 }
 
 function g_mouseMove(event){
