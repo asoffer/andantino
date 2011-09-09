@@ -59,7 +59,7 @@ $(document).ready(function(){
 	$("#first").dialog({
 	    title: "Who plays first?",
 	    width: 290,
-	    closeOnEscape: true,
+	    closeOnEscape: false,
 	    open: function(event, ui) { $(".ui-dialog-titlebar-close").hide(); },
 	    draggable: false,
 	    resizable: false
