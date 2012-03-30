@@ -19,6 +19,7 @@ $(document).ready(function(){
     $("button").button().css("width", 250);
     $("#menu").dialog({
 	title: "Andantino",
+	    width: 275,
 	closeOnEscape: false,
 	draggable: false,
 	resizable: false,
@@ -51,20 +52,21 @@ $(document).ready(function(){
 
 
     $("#hc").click(function(event){
-	$("#menu").dialog("close");
-
-	g_p1 = new HumanPlayer("blue");
-	g_p2 = new HumanPlayer("red");
-
-	$("#first").dialog({
-	    title: "Who plays first?",
-	    width: 290,
-	    closeOnEscape: false,
-	    open: function(event, ui) { $(".ui-dialog-titlebar-close").hide(); },
-	    draggable: false,
-	    resizable: false
-	}).css("text-align", "center");
-	$("#first").show();
+        $("#menu").dialog("close");
+        
+        g_p1 = new HumanPlayer("blue");
+        g_p2 = new HumanPlayer("red");
+        
+        $("#first").dialog({
+            title: "Who plays first?",
+            width: 275,
+            height: 130,
+            closeOnEscape: false,
+            open: function(event, ui) { $(".ui-dialog-titlebar-close").hide(); },
+            draggable: false,
+            resizable: false
+        }).css("text-align", "center");
+        $("#first").show();
     });
 
     $("#hFirst").click(function(event){
@@ -91,7 +93,7 @@ $(document).ready(function(){
     $("#rules").click(function(event){
 	$("#howto").dialog({
 	    title: "How to play Andantino",
-	    width: 600,
+	    width: 500,
 	    closeOnEscape: false,
 	    draggable: false,
 	    resizable: false,
@@ -102,8 +104,9 @@ $(document).ready(function(){
     });
 
     $(".backToMenu").click(function(){
-	$("#howto").dialog("close");
-	$("#menu").dialog("open");
+        $("#howto").dialog("close");
+        $("#first").dialog("close");
+        $("#menu").dialog("open");
     });
 
 });
