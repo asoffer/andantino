@@ -9,20 +9,20 @@ function List(){
 }
 
 List.prototype = {
-   toString: function(){
-       if(this.size = 0)
-	   return "[]";
+    toString: function(){
+	if(this.size == 0)
+	    return "[]";
 
-       var str = "[" + this.head.next.data;
-       var ptr = this.head.next;
+	var str = "[" + this.head.next.data;
+	var ptr = this.head.next;
 
-       while(ptr.next != this.head){
-	   ptr = ptr.next;
-	   str += ", " + ptr.data;
-       }
+	while(ptr.next != this.head){
+	    ptr = ptr.next;
+	    str += ", " + ptr.data;
+	}
 
-       return str + "]";
-   },
+	return str + "]";
+    },
 
     //add data to the front of the list
     pushFront: function(d){
@@ -41,19 +41,6 @@ List.prototype = {
 	n.prev.next = n;
     },
 
-    //add data after the first element for which fn returns true
-    addAfter: function(d, fn){
-	var ptr = this.head.next;
-	while(fn(ptr.data)){
-	    ptr = ptr.next;
-	    if(ptr == this.head)
-		return this.pushBack(d);
-	}
-	var n = {data: d, prev: ptr, next: ptr.next};
-	ptr.next = n;
-	n.next.prev = n;
-    },
-
     //remove last item in the list and return it
     popFront: function(){
 	if(this.size == 0)
@@ -63,6 +50,7 @@ List.prototype = {
 	this.head.next.next.prev = this.head;
 	this.head.next = this.head.next.next;
 	--this.size;
+
 	return d;
     },
 
@@ -96,12 +84,12 @@ List.prototype = {
 	var ptr = this.head.next;
 
 	while(ptr != this.head){
-	    if(data.equals(ptr.data)){
+	    if(data == ptr.data){
 		ptr.prev.next = ptr.next;
 		ptr.next.prev = ptr.prev;
 
 		--this.size;
-	    
+		
 		return data;
 	    }
 
@@ -110,22 +98,33 @@ List.prototype = {
 	return;
     },
 
-    //call a function on every element of the list in order
-    iterate: function(fn){
+    has: function(data){
 	var ptr = this.head.next;
 	while(ptr != this.head){
-	    fn(ptr.data)
+	    if(ptr.data == data)
+		return true;
 	    ptr = ptr.next;
 	}
+	
+	return false;
+    },
+
+      //call a function on every element of the list in order
+    iterate: function(fn){
+        var ptr = this.head.next;
+        while(ptr != this.head){
+            fn(ptr.data)
+                ptr = ptr.next;
+        }
     },
 
     //call a function on every element of the list in reverse order
     iterateReverse: function(fn){
-	var ptr = this.head.prev;
-	while(ptr != this.head){
-	    fn(ptr.data)
-	    ptr = ptr.prev;
-	}
+        var ptr = this.head.prev;
+        while(ptr != this.head){
+            fn(ptr.data)
+                ptr = ptr.prev;
+        }
     }
 
 };

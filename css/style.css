@@ -1,0 +1,48 @@
+html{
+    margin: 0;
+    padding: 0;
+    font: 8pt "Trebuchet MS" sans-serif;
+}
+
+body{
+    margin: 5;
+    padding: 0;
+}
+
+#canvas{
+    z-index: 0;
+    height: 98%;
+    width: 100%;
+}
+
+#credit{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-family: "helvetcia" sans-serif;
+    font-size: 12pt;
+    padding: 10px;
+    z-index: 1;
+    text-align: right;
+}
+
+#credit a, #credit a:visited, #credit a:active{
+    font-weight: bold;
+    color: #000;
+    text-decoration: none;
+}
+
+#credit a:hover{
+    color: #444;
+}
+
+#buttons{
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 5px;
+}
+
+#buttons p{
+    margin: 3px;
+}
