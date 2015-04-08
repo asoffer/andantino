@@ -1,52 +1,24 @@
 <html>
-    <head>
-        <title>Andantino</title>
-        <script src = "js/jquery.js"></script>
-        <script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
-        <link type="text/css" href="css/smoothness/jquery-ui-1.8.16.custom.css" rel="Stylesheet" />
-        <script type = "text/javascript" src = "js/Point.js"></script>
-        <script type = "text/javascript" src = "js/List.js"></script>
-        <script type = "text/javascript" src = "js/Hex.js"></script>
-        <script type = "text/javascript" src = "js/Game.js"></script>
-        <script type = "text/javascript" src = "js/ai.js"></script>
-        <script type = "text/javascript" src = "js/HumanPlayer.js"></script>
-        <script type = "text/javascript" src = "js/main.js"></script>
+<head>
+<title>Andantino</title>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script>
+<script type="text/javascript" src="js/Hex.js"></script>
+<script type="text/javascript" src="js/Game.js"></script>
+<script type="text/javascript">
+window.onload = function() {
+    var game = new Andantino.Game('canvas');
+    game.init();
 
-        <link type = "text/css" href = "css/style.css" rel = "Stylesheet" />
+};
+</script>
 
-    </head>
-    <body bgcolor="#aaa">
-        <canvas id="canvas"></canvas>
-        <div id = "buttons">
-            <p class = "ui-state-default ui-corner-all" id = "undo"><span class="ui-icon ui-icon-arrowreturnthick-1-w"></span></p>
-            <p class = "ui-state-default ui-corner-all" id = "zin"><span class="ui-icon ui-icon-zoomin"></span></p>
-            <p class = "ui-state-default ui-corner-all" id = "zout"><span class="ui-icon ui-icon-zoomout"></span></p>
-        </div>
-        <div id="menu">
-            <button id = "hh">Human vs. Human</button>
-            <button id = "hc">Human vs. Comp.</button>
-            <button id = "cc">Comp. vs. Comp.</button>
-            <button id = "rules">How to Play</button>
-        </div>
-
-        <div id = "howto">
-            <ul>
-                <li>Players <b>Blue</b> and <b>Red</b> take turns placing hexes. <b>Blue</b> plays first.</li>
-                <li>Each hex (other than the first two) must be played adjacent to two previously played hexes (playable options are shown in light gray).</li>
-                <li>You win if you surround at least one of your opponents' hexes with your own, or if you play 5 of your own hexes in a row.</li>
-                <li>You can hit 1 or 2 to zoom in or out respectively</li>
-                <li>Hit "U" to undo</li>
-                <li>Enjoy!</li>
-            </ul>
-            <center><button class = "backToMenu">Back</button></center>
-        </div>
-
-        <div id = "first">
-            <button id = "hFirst">Human first</button>
-            <button id = "cFirst">Computer first</button>
-            <button class = "backToMenu">Back</button>
-        </div>
-        <div id = "win"></div>
-        <div id = "credit">By <a href = "http://soffer801.wordpress.com">Andy Soffer</a><br> and <b>Scott Garrabrant</b></div>
-    </body>
+<style>
+#canvas{
+    background: #dddded;
+}
+</style>
+</head>
+<body>
+<div id="canvas"></div>
+</body>
 </html>

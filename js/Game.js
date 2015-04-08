@@ -1,3 +1,55 @@
+(function(A){
+    A.Game = function(id){
+        this.paper = Raphael(id, 640, 480);
+        A.theGame = this;
+
+        this.playedHexes = [];
+        this.unplayedHexes = [];
+        this.grayHexes = [];
+
+        this.initDrag(id);
+        this.mousedown = false;
+
+
+        this.playerTurn = 0;
+    };
+
+    A.Game.prototype = {
+        init: function(){
+            new A.Hex({x: 0, y: 0}, 1);
+            new A.Hex({x: 0, y: 1}, 2);
+            new A.Hex({x: 1, y: 0}, 0);
+            new A.Hex({x: -1, y: 1}, 0);
+        },
+
+        initDrag: function(id){
+            var canvas = document.getElementById(id);
+            canvas.onmousedown = function(e){
+                if (e.target.nodeName == "svg"){
+                    A.theGame.mousedown = {x: e.x, y: e.y};
+                }
+            };
+
+            canvas.onmouseup = function(){
+                A.theGame.mousedown = false;
+            };
+
+            canvas.onmousemove = function(e){
+                if(A.theGame.mousedown !== false){
+                    A.theGame.moveAll(e.x - A.theGame.mousedown.x, e.y - A.theGame.mousedown.y);
+                    A.theGame.mousedown = {x: e.x, y: e.y};
+                }
+            };
+        },
+
+        moveAll: function(x, y){
+            this.paper.forEach(function(el){
+                el.translate(x, y);
+            });
+        }
+    };
+})(window.Andantino = window.Andantino || {});
+/*
 function Game(p1,p2){
     this.initGraphics();
 
@@ -273,3 +325,4 @@ Game.prototype = {
         }).text("Hit escape to go to the main menu.");
     }
 };
+*/
