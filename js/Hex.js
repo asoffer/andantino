@@ -1,4 +1,24 @@
 (function(A){
+    var neighborPositions = function(x, y){
+        return [
+            {x: (x) , y:  + (y + 1)},
+            {x: (x + 1) , y:  + (y)},
+            {x: (x + 1) , y:  + (y - 1)},
+            {x: (x) , y:  + (y - 1)},
+            {x: (x - 1) , y:  + (y)},
+            {x: (x - 1) , y:  + (y + 1)}
+        ];
+    };
+
+    var neighbors = function(x, y){
+        var nbrs = [];
+        neighborPositions(x, y).forEach(function(el){
+            nbrs.push(A.theGame.hexes['' + el.x + ',' + el.y]);
+        });
+        return nbrs;
+
+    };
+
     var hexColors = ['#aaa', '#833', '#338', '#338'];
 
     //to make direction iteration easier
@@ -9,16 +29,22 @@
         this.draw(A.theGame);
 
         this.setColor(colorNum);
+
+        this.registerHex();
     };
 
     A.Hex.prototype = {
+        registerHex: function(){
+            A.theGame.hexes['' + this.pt.x + ',' + this.pt.y] = this;
+        },
+
         draw: function(game){
             var hex = this;
 
             var s = 30;
             var pt = {
-                x: 1.5 * (s + 5) * this.pt.x,
-                y: 1.732 * (s + 5) * this.pt.y + 0.866 * (s + 5) * this.pt.x
+                x: A.theGame.totalTranslate.x + 1.5 * (s + 5) * this.pt.x,
+                y: A.theGame.totalTranslate.y + 1.732 * (s + 5) * this.pt.y + 0.866 * (s + 5) * this.pt.x
             };
 
             this.visual = game.paper.path('M' + (pt.x + s) + ',' + pt.y + 
@@ -30,7 +56,7 @@
             .attr({fill: this.color, stroke: 'black', 'stroke-width': 3, 'stroke-linejoin': 'round' })
             .click(function(){ return hex.click(); })
             .hover(function(){ hex.glow = this.glow({color: hex.color}); },
-                   function(){ hex.glow.remove(); });
+                   function(){ hex.glow.remove(); delete hex.glow; });
         },
 
         setColor: function(num){
@@ -47,6 +73,28 @@
                 this.setColor(++A.theGame.playerTurn);
                 A.theGame.playerTurn %= 2;
                 //set color to be something
+
+                var nbrPos = neighborPositions(this.pt.x, this.pt.y);
+
+                var newHexLocs = [];
+                nbrPos.forEach(function(el){
+                    var nbrs = neighbors(el.x, el.y);
+                    var nbrCounter = 0;
+                    for(var i = 0; i < 6; ++i){
+                        if(typeof(nbrs[i]) !== 'undefined' && nbrs[i].color !== hexColors[0]){
+                            ++nbrCounter;
+                        }
+                    }
+
+                    var elStr = '' + el.x + ',' + el.y;
+                    if(nbrCounter === 2 && typeof(A.theGame.hexes[elStr]) === 'undefined'){
+                        newHexLocs.push(el);
+                    }
+                });
+
+                newHexLocs.forEach(function(el){
+                    new A.Hex(el, 0);
+                });
             }
         }
     };

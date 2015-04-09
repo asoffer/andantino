@@ -1,11 +1,11 @@
 (function(A){
     A.Game = function(id){
-        this.paper = Raphael(id, 640, 480);
+        this.width = 640;
+        this.height = 480;
+        this.paper = Raphael(id, this.width, this.height);
         A.theGame = this;
 
-        this.playedHexes = [];
-        this.unplayedHexes = [];
-        this.grayHexes = [];
+        this.hexes = {};
 
         this.initDrag(id);
         this.mousedown = false;
@@ -16,10 +16,14 @@
 
     A.Game.prototype = {
         init: function(){
+            this.totalTranslate = {x: 0, y: 0};
+            this.moveAll(this.width / 2, this.height / 2);
+
             new A.Hex({x: 0, y: 0}, 1);
             new A.Hex({x: 0, y: 1}, 2);
             new A.Hex({x: 1, y: 0}, 0);
             new A.Hex({x: -1, y: 1}, 0);
+
         },
 
         initDrag: function(id){
@@ -43,6 +47,9 @@
         },
 
         moveAll: function(x, y){
+            this.totalTranslate.x += x;
+            this.totalTranslate.y += y;
+
             this.paper.forEach(function(el){
                 el.translate(x, y);
             });
