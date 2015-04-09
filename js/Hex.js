@@ -64,38 +64,73 @@
             this.visual.attr({fill: this.color});
         },
 
-        equals: function(h){
-            return this.pt === h.pt;
+        checkWin: function(){
+            return this.linearWin() || this.surroundingWin();
+        },
+
+        surroundingWin: function(){
+            //FIXME
+            return false;
+        },
+
+        linearWin: function(){
+            return this.checkLine(0, 1) || this.checkLine(1, 0) || this.checkLine(1, -1);
+        },
+
+        checkLine: function(dx, dy){
+                var x = this.pt.x;
+                var y = this.pt.y;
+
+                var counter = -1;
+                do{
+                    ++counter;
+                    x += dx;
+                    y += dy;
+                    if(counter >= 5) return true;
+                } while(typeof(A.theGame.hexes['' + x + ',' + y]) !== 'undefined' && this.color === A.theGame.hexes['' + x + ',' + y].color);
+
+                x = this.pt.x;
+                y = this.pt.y;
+                do{
+                    ++counter;
+                    x -= dx;
+                    y -= dy;
+                    if(counter >= 5) return true;
+                } while(typeof(A.theGame.hexes['' + x + ',' + y]) !== 'undefined' && this.color === A.theGame.hexes['' + x + ',' + y].color);
+
+                return counter >= 5;
         },
 
         click: function(){
-            if(this.color === hexColors[0]){
-                this.setColor(++A.theGame.playerTurn);
-                A.theGame.playerTurn %= 2;
-                //set color to be something
+            if(this.color !== hexColors[0])
+                return;
 
-                var nbrPos = neighborPositions(this.pt.x, this.pt.y);
+            this.setColor(++A.theGame.playerTurn);
+            console.log(this.checkWin());
+            A.theGame.playerTurn %= 2;
+            //set color to be something
 
-                var newHexLocs = [];
-                nbrPos.forEach(function(el){
-                    var nbrs = neighbors(el.x, el.y);
-                    var nbrCounter = 0;
-                    for(var i = 0; i < 6; ++i){
-                        if(typeof(nbrs[i]) !== 'undefined' && nbrs[i].color !== hexColors[0]){
-                            ++nbrCounter;
-                        }
+            var nbrPos = neighborPositions(this.pt.x, this.pt.y);
+
+            var newHexLocs = [];
+            nbrPos.forEach(function(el){
+                var nbrs = neighbors(el.x, el.y);
+                var nbrCounter = 0;
+                for(var i = 0; i < 6; ++i){
+                    if(typeof(nbrs[i]) !== 'undefined' && nbrs[i].color !== hexColors[0]){
+                        ++nbrCounter;
                     }
+                }
 
-                    var elStr = '' + el.x + ',' + el.y;
-                    if(nbrCounter === 2 && typeof(A.theGame.hexes[elStr]) === 'undefined'){
-                        newHexLocs.push(el);
-                    }
-                });
+                var elStr = '' + el.x + ',' + el.y;
+                if(nbrCounter === 2 && typeof(A.theGame.hexes[elStr]) === 'undefined'){
+                    newHexLocs.push(el);
+                }
+            });
 
-                newHexLocs.forEach(function(el){
-                    new A.Hex(el, 0);
-                });
-            }
+            newHexLocs.forEach(function(el){
+                new A.Hex(el, 0);
+            });
         }
     };
 })(window.Andantino = window.Andantino || {});
